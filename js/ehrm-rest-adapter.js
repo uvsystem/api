@@ -61,7 +61,7 @@ var unitKerjaRestAdapter = {
 	// his is bug. Next version, join with findSubUnit with async option.
 	findSubUnitAsync: function( kode, callback ) {
 
-		ehrmRestAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',
+		restAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
