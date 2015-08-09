@@ -88,6 +88,39 @@ var programRestAdapter = {
 			},
 			message.error
 		);
+	},
+	
+	rekapById: function( id, callback ) {
+
+		restAdapter.call( '/program/rekap/' + id, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Program dengan  id: " + id + ", hasil: " + result.model ); // LOG
+				callback( result );
+			},
+			message.error
+		);
+	},
+	
+	rekapByTahun: function( tahun, callback ) {
+
+		restAdapter.call( '/program/rekap/tahun/' + tahun, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Program dengan  tahun: " + tahun + ", hasil: " + result.list ); // LOG
+				callback( result );
+			},
+			message.error
+		);
+	},
+	
+	rekapBySatker: function( tahun, kode, callback ) {
+
+		restAdapter.call( '/program/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Program dengan  kode satuan kerja: " + kode  + ", hasil: " + result.model ); // LOG
+				callback( result );
+			},
+			message.error
+		);
 	}
 };
 
@@ -187,6 +220,50 @@ var kegiatanRestAdapter = {
 		restAdapter.call( '/kegiatan/cari/' + keyword, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mencari kegiatan dengan kata kunci: " + keyword + ", hasil: " + ( result.list ? result.list.length : 0 ) ); // LOG
+				callback( result );
+			},
+			message.error
+		);
+	},
+	
+	rekapById: function( id, callback ) {
+
+		restAdapter.call( '/kegiatan/rekap/' + id, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Kegiatan dengan  id: " + id + ", hasil: " + result.model ); // LOG
+				callback( result );
+			},
+			message.error
+		);
+	},
+	
+	rekapByTahun: function( tahun, callback ) {
+
+		restAdapter.call( '/kegiatan/rekap/tahun/' + tahun, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Kegiatan dengan  tahun: " + tahun + ", hasil: " + result.list ); // LOG
+				callback( result );
+			},
+			message.error
+		);
+	},
+	
+	rekapBySatker: function( tahun, kode, callback ) {
+
+		restAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Kegiatan dengan  kode satuan kerja: " + kode  + ", hasil: " + result.model ); // LOG
+				callback( result );
+			},
+			message.error
+		);
+	},
+	
+	rekapByProgram: function( tahun, id, callback ) {
+
+		restAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/program/' + id, null, 'GET',
+			function( result ) {
+				message.writeLog( "Rekap Kegiatan dengan  program: " + id  + ", hasil: " + result.model ); // LOG
 				callback( result );
 			},
 			message.error
