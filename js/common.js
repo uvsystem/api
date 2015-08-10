@@ -13,7 +13,25 @@
  */
 
 /** Alamat server untuk menyimpan file */
-var targetImage = 'http://dir-unitedvision.whelastic.net'; 
+var targetImage = 'https://uvs.web.id/api/'; 
+function upload( file, kode, directory, submit ) {
+
+	if ( file ) {
+
+		var form = new FormData();
+		form.append( 'kode', kode );
+		form.append( 'directory', directory );
+		form.append( 'file', file );
+		form.append( 'submit', submit );
+				
+		var xhr = new XMLHttpRequest();
+		xhr.onload = function() {
+			alert( "Upload complete." );
+		};
+		xhr.open( "POST", targetImage + 'upload.php', false );
+		xhr.send( form );
+	}
+};
 
 var waitModal;
 var kodeAplikasi;
