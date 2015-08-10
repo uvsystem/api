@@ -1303,6 +1303,23 @@ var operator = {
 			
 		}
 	},
+	
+	getSatuanKerja: function() {
+
+		var pegawai;
+	
+		try {
+
+			pegawai = this.getPegawai();
+			
+			return pegawai.unitKerja;
+			
+		} catch ( e ) {
+			
+			throw e;
+			
+		}
+	},
 
 	getOperator: function() {
 
@@ -1328,7 +1345,6 @@ var operator = {
 			throw e;
 			
 		}
-		
 	},
 	
 	/*
