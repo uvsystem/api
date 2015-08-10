@@ -12,8 +12,8 @@
  * Version: 1.0.0
  */
 
-var target = 'https://core-unitedvision.whelastic.net';
-var restAdapter = rest( target, 'monev' );
+var target = 'http://localhost:8080';
+var monevRestAdapter = rest( target, 'monev' );
 
 var programRestAdapter = {
 
@@ -26,7 +26,7 @@ var programRestAdapter = {
 			tahunAkhir: tahunAkhir
 		};
 		
-		restAdapter.call( '/program/' + idSatuanKerja, program, 'POST',
+		monevRestAdapter.call( '/program/' + idSatuanKerja, program, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah program: " + program ); // LOG
@@ -37,7 +37,7 @@ var programRestAdapter = {
 	
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/program/' + id, null, 'DELETE',
+		monevRestAdapter.call( '/program/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus program: " + id ); // LOG
@@ -48,7 +48,7 @@ var programRestAdapter = {
 	
 	findOne: function( id, callback ) {
 
-		restAdapter.call( '/program/' + id, null, 'GET',
+		monevRestAdapter.call( '/program/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil program: " + result.object ); // LOG
 				callback( result );
@@ -59,7 +59,7 @@ var programRestAdapter = {
 	
 	findBySatker: function( idSatuanKerja, callback ) {
 
-		restAdapter.call( '/program/satker/' + idSatuanKerja, null, 'GET',
+		monevRestAdapter.call( '/program/satker/' + idSatuanKerja, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil program: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -70,7 +70,7 @@ var programRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/program/cari/' + keyword, null, 'GET',
+		monevRestAdapter.call( '/program/cari/' + keyword, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mencari program dengan kode kata kunci: " + keyword + ", hasil: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -81,7 +81,7 @@ var programRestAdapter = {
 	
 	findAll: function( callback ) {
 
-		restAdapter.call( '/program', null, 'GET',
+		monevRestAdapter.call( '/program', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil semua program: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -92,7 +92,7 @@ var programRestAdapter = {
 	
 	rekapById: function( id, callback ) {
 
-		restAdapter.call( '/program/rekap/' + id, null, 'GET',
+		monevRestAdapter.call( '/program/rekap/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Program dengan  id: " + id + ", hasil: " + result.model ); // LOG
 				callback( result );
@@ -103,7 +103,7 @@ var programRestAdapter = {
 	
 	rekapByTahun: function( tahun, callback ) {
 
-		restAdapter.call( '/program/rekap/tahun/' + tahun, null, 'GET',
+		monevRestAdapter.call( '/program/rekap/tahun/' + tahun, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Program dengan  tahun: " + tahun + ", hasil: " + result.list ); // LOG
 				callback( result );
@@ -114,7 +114,7 @@ var programRestAdapter = {
 	
 	rekapBySatker: function( tahun, kode, callback ) {
 
-		restAdapter.call( '/program/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
+		monevRestAdapter.call( '/program/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Program dengan  kode satuan kerja: " + kode  + ", hasil: " + result.model ); // LOG
 				callback( result );
@@ -134,7 +134,7 @@ var kegiatanRestAdapter = {
 			paguAnggaran: paguAnggaran
 		};
 		
-		restAdapter.call( '/kegiatan/' + idProgram, kegiatan, 'POST',
+		monevRestAdapter.call( '/kegiatan/' + idProgram, kegiatan, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan kegiatan: " + kegiatan ); // LOG
@@ -151,7 +151,7 @@ var kegiatanRestAdapter = {
 			paguAnggaran: paguAnggaran
 		};
 		
-		restAdapter.call( '/kegiatan/' + idKegiatan + '/sub', kegiatan, 'POST',
+		monevRestAdapter.call( '/kegiatan/' + idKegiatan + '/sub', kegiatan, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan sub kegiatan: " + kegiatan ); // LOG
@@ -162,7 +162,7 @@ var kegiatanRestAdapter = {
 	
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/kegiatan/' + id, null, 'DELETE',
+		monevRestAdapter.call( '/kegiatan/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus kegiatan: " + id ); // LOG
@@ -173,7 +173,7 @@ var kegiatanRestAdapter = {
 	
 	findOne: function( id, callback ) {
 
-		restAdapter.call( '/kegiatan/' + id, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil kegiatan: " + result.object ); // LOG
 				callback( result );
@@ -184,7 +184,7 @@ var kegiatanRestAdapter = {
 	
 	findBySatker: function( idSatuanKerja, callback ) {
 
-		restAdapter.call( '/kegiatan/satker/' + idSatuanKerja, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/satker/' + idSatuanKerja, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil kegiatan: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -195,7 +195,7 @@ var kegiatanRestAdapter = {
 	
 	findByProgram: function( idProgram, callback ) {
 
-		restAdapter.call( '/kegiatan/program/' + idProgram, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/program/' + idProgram, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil kegiatan: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -206,7 +206,7 @@ var kegiatanRestAdapter = {
 	
 	findAll: function( callback ) {
 
-		restAdapter.call( '/kegiatan', null, 'GET',
+		monevRestAdapter.call( '/kegiatan', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil kegiatan: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -217,7 +217,7 @@ var kegiatanRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/kegiatan/cari/' + keyword, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/cari/' + keyword, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mencari kegiatan dengan kata kunci: " + keyword + ", hasil: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -228,9 +228,9 @@ var kegiatanRestAdapter = {
 	
 	rekapById: function( id, callback ) {
 
-		restAdapter.call( '/kegiatan/rekap/' + id, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/rekap/' + id, null, 'GET',
 			function( result ) {
-				message.writeLog( "Rekap Kegiatan dengan  id: " + id + ", hasil: " + result.model ); // LOG
+				message.writeLog( "Rekap Kegiatan dengan id: " + id + ", hasil: " + result.model ); // LOG
 				callback( result );
 			},
 			message.error
@@ -239,9 +239,9 @@ var kegiatanRestAdapter = {
 	
 	rekapByTahun: function( tahun, callback ) {
 
-		restAdapter.call( '/kegiatan/rekap/tahun/' + tahun, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/rekap/tahun/' + tahun, null, 'GET',
 			function( result ) {
-				message.writeLog( "Rekap Kegiatan dengan  tahun: " + tahun + ", hasil: " + result.list ); // LOG
+				message.writeLog( "Rekap Kegiatan dengan tahun: " + tahun + ", hasil: " + result.list ); // LOG
 				callback( result );
 			},
 			message.error
@@ -250,9 +250,9 @@ var kegiatanRestAdapter = {
 	
 	rekapBySatker: function( tahun, kode, callback ) {
 
-		restAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
 			function( result ) {
-				message.writeLog( "Rekap Kegiatan dengan  kode satuan kerja: " + kode  + ", hasil: " + result.model ); // LOG
+				message.writeLog( "Rekap Kegiatan dengan kode satuan kerja: " + kode  + ", hasil: " + result.list.length ); // LOG
 				callback( result );
 			},
 			message.error
@@ -261,7 +261,7 @@ var kegiatanRestAdapter = {
 	
 	rekapByProgram: function( tahun, id, callback ) {
 
-		restAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/program/' + id, null, 'GET',
+		monevRestAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/program/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Kegiatan dengan  program: " + id  + ", hasil: " + result.model ); // LOG
 				callback( result );
@@ -282,7 +282,7 @@ var anggaranRestAdapter = {
 			realisasi: realisasi
 		};
 		
-		restAdapter.call( '/anggaran/' + idKegiatan, anggaran, "POST", function( result ) {
+		monevRestAdapter.call( '/anggaran/' + idKegiatan, anggaran, "POST", function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan anggaran: " + result.object ); // LOG
 			},
@@ -292,7 +292,7 @@ var anggaranRestAdapter = {
 
 	realisasi: function( idAnggaran, realisasi, callback ) {
 
-		restAdapter.call( '/anggaran/' + idAnggaran + '/realisasi/' + realisasi, null, 'POST',
+		monevRestAdapter.call( '/anggaran/' + idAnggaran + '/realisasi/' + realisasi, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah realisasi untuk anggaran: " + idAnggaran ); // LOG
@@ -303,7 +303,7 @@ var anggaranRestAdapter = {
 	
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/anggaran/' + id, null, 'DELETE',
+		monevRestAdapter.call( '/anggaran/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus anggaran: " + id ); // LOG
@@ -314,7 +314,7 @@ var anggaranRestAdapter = {
 	
 	find: function( idKegiatan, tahun, bulan, callback ) {
 
-		restAdapter.call( '/anggaran/kegiatan/' + idKegiatan + '/tahun/' + tahun + '/bulan/' + bulan, null, 'GET',
+		monevRestAdapter.call( '/anggaran/kegiatan/' + idKegiatan + '/tahun/' + tahun + '/bulan/' + bulan, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil anggaran: " + result.object ); // LOG
 				callback( result );
@@ -325,7 +325,7 @@ var anggaranRestAdapter = {
 	
 	findOne: function( id, callback ) {
 
-		restAdapter.call( '/anggaran/' + id, null, 'GET',
+		monevRestAdapter.call( '/anggaran/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil anggaran: " + result.object ); // LOG
 				callback( result );
@@ -336,7 +336,7 @@ var anggaranRestAdapter = {
 	
 	findByProgram: function( idProgram, callback ) {
 
-		restAdapter.call( '/anggaran/program/' + idProgram, null, 'GET',
+		monevRestAdapter.call( '/anggaran/program/' + idProgram, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil anggaran: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -347,7 +347,7 @@ var anggaranRestAdapter = {
 
 	findByKegiatan: function( idKegiatan, callback ) {
 
-		restAdapter.call( '/anggaran/kegiatan/' + idKegiatan, null, 'GET',
+		monevRestAdapter.call( '/anggaran/kegiatan/' + idKegiatan, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil anggaran: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -368,7 +368,7 @@ var fisikRestAdapter = {
 			realisasi: realisasi
 		};
 		
-		restAdapter.call( '/fisik/' + idKegiatan, fisik, "POST", function( result ) {
+		monevRestAdapter.call( '/fisik/' + idKegiatan, fisik, "POST", function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan fisik: " + result.object ); // LOG
 			},
@@ -382,7 +382,7 @@ var fisikRestAdapter = {
 			location: location
 		};
 	
-		restAdapter.call( '/fisik/' + idFisik + '/foto/location', foto, 'PUT',
+		monevRestAdapter.call( '/fisik/' + idFisik + '/foto/location', foto, 'PUT',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah realisasi untuk fisik: " + idFisik ); // LOG
@@ -398,7 +398,7 @@ var fisikRestAdapter = {
 		for ( i = 0; i < listLocation.length; i++ )
 			listFoto[ i ] = { location: listLocation[ 0 ] };
 	
-		restAdapter.call( '/fisik/' + idFisik + '/foto', listFoto, 'PUT',
+		monevRestAdapter.call( '/fisik/' + idFisik + '/foto', listFoto, 'PUT',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah realisasi untuk fisik: " + idFisik ); // LOG
@@ -409,7 +409,7 @@ var fisikRestAdapter = {
 	
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/fisik/' + id, null, 'DELETE',
+		monevRestAdapter.call( '/fisik/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus fisik: " + id ); // LOG
@@ -420,7 +420,7 @@ var fisikRestAdapter = {
 	
 	find: function( idKegiatan, tahun, bulan, callback ) {
 
-		restAdapter.call( '/fisik/kegiatan/' + idKegiatan + '/tahun/' + tahun + '/bulan/' + bulan, null, 'GET',
+		monevRestAdapter.call( '/fisik/kegiatan/' + idKegiatan + '/tahun/' + tahun + '/bulan/' + bulan, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil fisik: " + result.object ); // LOG
 				callback( result );
@@ -431,7 +431,7 @@ var fisikRestAdapter = {
 	
 	findOne: function( id, callback ) {
 
-		restAdapter.call( '/fisik/' + id, null, 'GET',
+		monevRestAdapter.call( '/fisik/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil fisik: " + result.object ); // LOG
 				callback( result );
@@ -442,7 +442,7 @@ var fisikRestAdapter = {
 	
 	findByProgram: function( idProgram, callback ) {
 
-		restAdapter.call( '/fisik/program/' + idProgram, null, 'GET',
+		monevRestAdapter.call( '/fisik/program/' + idProgram, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil fisik: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -453,7 +453,7 @@ var fisikRestAdapter = {
 
 	findByKegiatan: function( idKegiatan, callback ) {
 
-		restAdapter.call( '/fisik/kegiatan/' + idKegiatan, null, 'GET',
+		monevRestAdapter.call( '/fisik/kegiatan/' + idKegiatan, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil fisik: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -467,27 +467,12 @@ var aplikasiRestAdapter = {
 	
 	findKode: function( callback ) {
 		
-		restAdapter.callFree( '/aplikasi/kode', null, "GET", function( result ) {
+		monevRestAdapter.callFree( '/aplikasi/kode', null, "GET", function( result ) {
 				callback( result );
 				message.writeLog( "Kode aplikasi: " + result.object ); // LOG
 			},
 			message.error,
 			false // Sychronous Access
-		);
-	}
-};
-
-var unitKerjaRestAdapter = {
-	
-	all: function( callback ) {
-
-		var ehrmRestAdapter = rest( target, 'ehrm' );
-		ehrmRestAdapter.call( '/satker', null, 'GET',
-			function( result ) {
-				message.writeLog( "Mengambil semua unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
-				callback( result );
-			},
-			message.error
 		);
 	}
 };

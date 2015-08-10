@@ -12,8 +12,8 @@
  * Version: 1.0.0
  */
 
-var target = 'https://core-unitedvision.whelastic.net';
-var restAdapter = rest( target, 'ehrm' );
+var target = 'http://localhost:8080';
+var ehrmRestAdapter = rest( target, 'ehrm' );
 
 var unitKerjaRestAdapter = {
 
@@ -26,7 +26,7 @@ var unitKerjaRestAdapter = {
 			singkatan: singkatan
 		};
 		
-		restAdapter.call( '/satker', unitKerja, 'POST',
+		ehrmRestAdapter.call( '/satker', unitKerja, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan unit kerja: " + result.object ); // LOG
@@ -37,7 +37,7 @@ var unitKerjaRestAdapter = {
 	
 	"delete": function( kode, callback ) {
 
-		restAdapter.call( '/satker/' + kode, null, 'DELETE',
+		ehrmRestAdapter.call( '/satker/' + kode, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus unit kerja: " + kode ); // LOG
@@ -48,7 +48,7 @@ var unitKerjaRestAdapter = {
 	
 	findOne: function( id, callback ) {
 
-		restAdapter.call( '/satker/' + id, null, 'GET',
+		ehrmRestAdapter.call( '/satker/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil unit kerja: " + result.object ); // LOG
 				callback( result );
@@ -61,7 +61,7 @@ var unitKerjaRestAdapter = {
 	// his is bug. Next version, join with findSubUnit with async option.
 	findSubUnitAsync: function( kode, callback ) {
 
-		restAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',
+		ehrmRestAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -73,7 +73,7 @@ var unitKerjaRestAdapter = {
 	
 	findSubUnit: function( kode, callback ) {
 
-		restAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',
+		ehrmRestAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -91,7 +91,7 @@ var unitKerjaRestAdapter = {
 			singkatan: singkatan,
 		};
 
-		restAdapter.call( '/satker/' + kode + '/sub', unitKerja, 'POST',
+		ehrmRestAdapter.call( '/satker/' + kode + '/sub', unitKerja, 'POST',
 			function( result ) {
 				message.writeLog( "Mengambil unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -102,7 +102,7 @@ var unitKerjaRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/satker/search/' + keyword, null, 'GET',
+		ehrmRestAdapter.call( '/satker/search/' + keyword, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mencari unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -113,7 +113,7 @@ var unitKerjaRestAdapter = {
 	
 	all: function( callback ) {
 
-		restAdapter.callFree( '/satker', null, 'GET',
+		ehrmRestAdapter.callFree( '/satker', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil semua unit kerja: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -134,7 +134,7 @@ var jabatanRestAdapter = {
 			nama: nama
 		};
 		
-		restAdapter.call( '/jabatan/' + idUnitKerja, jabatan, 'POST',
+		ehrmRestAdapter.call( '/jabatan/' + idUnitKerja, jabatan, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan jabatan: " + result.object ); // LOG
@@ -145,7 +145,7 @@ var jabatanRestAdapter = {
 	
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/jabatan/' + id, null, 'DELETE',
+		ehrmRestAdapter.call( '/jabatan/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus jabatan: " + id ); // LOG
@@ -156,7 +156,7 @@ var jabatanRestAdapter = {
 	
 	findOne: function( id, callback ) {
 
-		restAdapter.call( '/jabatan/' + id, null, 'GET',
+		ehrmRestAdapter.call( '/jabatan/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil jabatan: " + result.object ); // LOG
 				callback( result );
@@ -167,7 +167,7 @@ var jabatanRestAdapter = {
 	
 	findBySatker: function( id, callback ) {
 
-		restAdapter.call( '/jabatan/satker/' + id, null, 'GET',
+		ehrmRestAdapter.call( '/jabatan/satker/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil jabatan: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -178,7 +178,7 @@ var jabatanRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/jabatan/search/' + keyword, null, 'GET',
+		ehrmRestAdapter.call( '/jabatan/search/' + keyword, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mencari jabatan: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -208,7 +208,7 @@ var pegawaiRestAdapter = {
 		if ( id != 0 )
 			method = 'PUT';
 		
-		restAdapter.call( '/pegawai/' + idSatuanKerja, pegawai, method, function( result ) {
+		ehrmRestAdapter.call( '/pegawai/' + idSatuanKerja, pegawai, method, function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan pegawai: " + result.object ); // LOG
 			},
@@ -218,7 +218,7 @@ var pegawaiRestAdapter = {
 	
 	"delete": function( nip, callback ) {
 
-		restAdapter.call( '/pegawai/' + nip, null, 'DELETE',
+		ehrmRestAdapter.call( '/pegawai/' + nip, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus pegawai: " + id ); // LOG
@@ -229,7 +229,7 @@ var pegawaiRestAdapter = {
 	
 	findOne: function( nip, callback ) {
 
-		restAdapter.call( '/pegawai/' + nip, null, 'GET',
+		ehrmRestAdapter.call( '/pegawai/' + nip, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil pegawai: " + result.object ); // LOG
 				callback( result );
@@ -240,7 +240,7 @@ var pegawaiRestAdapter = {
 	
 	findBySatker: function( idSatuanKerja, callback ) {
 
-		restAdapter.call( '/pegawai/satker/' + idSatuanKerja, null, 'GET',
+		ehrmRestAdapter.call( '/pegawai/satker/' + idSatuanKerja, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil pegawai: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -251,7 +251,7 @@ var pegawaiRestAdapter = {
 
 	findByEselon: function( eselon, callback ) {
 
-		restAdapter.call( '/pegawai/eselon/' + eselon, null, 'GET',
+		ehrmRestAdapter.call( '/pegawai/eselon/' + eselon, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil pegawai: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -262,7 +262,7 @@ var pegawaiRestAdapter = {
 	
 	findAll: function( callback ) {
 
-		restAdapter.call( '/pegawai', null, 'GET',
+		ehrmRestAdapter.call( '/pegawai', null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil pegawai: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -273,7 +273,7 @@ var pegawaiRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/pegawai/search/' + keyword, null, 'GET',
+		ehrmRestAdapter.call( '/pegawai/search/' + keyword, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mencari pegawai: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -284,7 +284,7 @@ var pegawaiRestAdapter = {
 	
 	mutasi: function( nip, kode, callback ) {
 
-		restAdapter.call( '/pegawai/' + nip + '/mutasi/' + kode, null, 'POST',
+		ehrmRestAdapter.call( '/pegawai/' + nip + '/mutasi/' + kode, null, 'POST',
 			function( result ) {
 				message.writeLog( "Mutasi pegawai " + nip + " ke Satuan Kerja " + kode ); // LOG
 				callback( result );
@@ -301,7 +301,7 @@ var pegawaiRestAdapter = {
 			tanggalSelesaiStr: tanggalSelesai
 		};
 
-		restAdapter.call( '/pegawai/' + nip + '/pangkat/' + pangkat, riwayat, 'POST',
+		ehrmRestAdapter.call( '/pegawai/' + nip + '/pangkat/' + pangkat, riwayat, 'POST',
 			function( result ) {
 				message.writeLog( "Promosi  pegawai  " + nip + " ke pangkat " + pangkat ); // LOG
 				callback( result );
@@ -312,7 +312,7 @@ var pegawaiRestAdapter = {
 	
 	hapusPangkat: function( nip, pangkat, callback ) {
 
-		restAdapter.call( '/pegawai/' + nip + '/pangkat/' + pangkat, null, 'DELETE',
+		ehrmRestAdapter.call( '/pegawai/' + nip + '/pangkat/' + pangkat, null, 'DELETE',
 			function( result ) {
 				message.writeLog( "Hapus pangkat " + pangkat + " dari pegawai  " + nip ); // LOG
 				callback( result );
@@ -329,7 +329,7 @@ var pegawaiRestAdapter = {
 			tanggalSelesaiStr: tanggalSelesai
 		};
 	
-		restAdapter.call( '/pegawai/' + nip + '/jabatan/' + idJabatan, riwayat, 'POST',
+		ehrmRestAdapter.call( '/pegawai/' + nip + '/jabatan/' + idJabatan, riwayat, 'POST',
 			function( result ) {
 				message.writeLog( "Promosi  pegawai  " + nip + " ke jabatan " + idJabatan ); // LOG
 				callback( result );
@@ -340,7 +340,7 @@ var pegawaiRestAdapter = {
 	
 	hapusJabatan: function( nip, jabatan, callback ) {
 
-		restAdapter.call( '/pegawai/' + nip + '/jabatan/' + jabatan, null, 'DELETE',
+		ehrmRestAdapter.call( '/pegawai/' + nip + '/jabatan/' + jabatan, null, 'DELETE',
 			function( result ) {
 				message.writeLog( "Hapus jabatan " + jabatan + " dari pegawai  " + nip ); // LOG
 				callback( result );
@@ -354,7 +354,7 @@ var absenRestAdapter = {
 
 	pagi: function( nip, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/pagi', null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/pagi', null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen pagi: " + nip ); // LOG
@@ -365,7 +365,7 @@ var absenRestAdapter = {
 
 	pagiDetail: function( nip, tanggal, jam, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/pagi/' + tanggal + '/' + jam, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/pagi/' + tanggal + '/' + jam, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen pagi: " + nip ); // LOG
@@ -376,7 +376,7 @@ var absenRestAdapter = {
 
 	cek1: function( nip, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/cek1', null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/cek1', null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen cek1: " + nip ); // LOG
@@ -387,7 +387,7 @@ var absenRestAdapter = {
 
 	cek1Detail: function( nip, tanggal, jam, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/cek1/' + tanggal + '/' + jam, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/cek1/' + tanggal + '/' + jam, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen cek1: " + nip ); // LOG
@@ -398,7 +398,7 @@ var absenRestAdapter = {
 
 	cek2: function( nip, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/cek2', null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/cek2', null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen cek2: " + nip ); // LOG
@@ -409,7 +409,7 @@ var absenRestAdapter = {
 
 	cek2Detail: function( nip, tanggal, jam, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/cek2/' + tanggal + '/' + jam, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/cek2/' + tanggal + '/' + jam, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen cek2: " + nip ); // LOG
@@ -420,7 +420,7 @@ var absenRestAdapter = {
 
 	sore: function( nip, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/sore', null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/sore', null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen sore: " + nip ); // LOG
@@ -431,7 +431,7 @@ var absenRestAdapter = {
 
 	soreDetail: function( nip, tanggal, jam, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/sore/' + tanggal + '/' + jam, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/sore/' + tanggal + '/' + jam, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen sore: " + nip ); // LOG
@@ -444,7 +444,7 @@ var absenRestAdapter = {
 
 		var hadirObject = { pagiStr: pagi, cek1Str: cek1, cek2Str: cek2, soreStr: sore };
 		
-		restAdapter.call( '/absen/' + nip + '/hadir/' + tanggal, hadirObject, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/hadir/' + tanggal, hadirObject, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen hadir: " + nip + ":" + tanggal + ". " + hadirObject ); // LOG
@@ -455,7 +455,7 @@ var absenRestAdapter = {
 
 	sakit: function( nip, tanggal, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/sakit/' + tanggal, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/sakit/' + tanggal, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen sakit: " + nip + ":" + tanggal ); // LOG
@@ -466,7 +466,7 @@ var absenRestAdapter = {
 
 	izin: function( nip, tanggal, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/izin/' + tanggal, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/izin/' + tanggal, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen izin: " + nip + ":" + tanggal ); // LOG
@@ -477,7 +477,7 @@ var absenRestAdapter = {
 
 	cuti: function( nip, tanggal, callback ) {
 
-		restAdapter.call( '/absen/' + nip + '/cuti/' + tanggal, null, 'POST',
+		ehrmRestAdapter.call( '/absen/' + nip + '/cuti/' + tanggal, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan absen cuti: " + nip + ":" + tanggal ); // LOG
@@ -488,7 +488,7 @@ var absenRestAdapter = {
 	
 	findBySatker: function( kode, tanggal, callback ) {
 
-		restAdapter.call( '/absen/satker/' + kode + '/tanggal/' + tanggal, null, 'GET',
+		ehrmRestAdapter.call( '/absen/satker/' + kode + '/tanggal/' + tanggal, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil absen: " + kode + ":" + tanggal ); // LOG
@@ -499,10 +499,10 @@ var absenRestAdapter = {
 	
 	rekapBySatker: function( kode, awal, akhir, callback ) {
 
-		restAdapter.callFree( '/absen/' + kode + '/rekap/' + awal + '/' + akhir, null, 'GET',
+		ehrmRestAdapter.callFree( '/absen/' + kode + '/rekap/' + awal + '/' + akhir, null, 'GET',
 			function( result ) {
 				callback( result );
-				message.writeLog( "Rekap absen: " + keyword ); // LOG
+				message.writeLog( "Rekap absen: " + kode ); // LOG
 			},
 			message.error
 		);
@@ -510,7 +510,7 @@ var absenRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/absen/search/' + keyword, null, 'GET',
+		ehrmRestAdapter.call( '/absen/search/' + keyword, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil absen: " + keyword ); // LOG
@@ -521,7 +521,7 @@ var absenRestAdapter = {
 	
 	"delete": function( id, status, callback ) {
 
-		restAdapter.call( '/absen/' + id + '/status/' + status, null, 'DELETE',
+		ehrmRestAdapter.call( '/absen/' + id + '/status/' + status, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus absen: " + status + ":" + id ); // LOG
@@ -535,7 +535,7 @@ var kalendarRestAdapter = {
 
 	add: function( tanggal, callback ) {
 
-		restAdapter.call( '/kalendar/' + tanggal, null, 'POST',
+		ehrmRestAdapter.call( '/kalendar/' + tanggal, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah kalendar: " + tanggal ); // LOG
@@ -546,7 +546,7 @@ var kalendarRestAdapter = {
 
 	findOne: function( tanggal, callback ) {
 
-		restAdapter.call( '/kalendar/' + tanggal, null, 'GET',
+		ehrmRestAdapter.call( '/kalendar/' + tanggal, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil kalendar: " + result.object ); // LOG
 				callback( result );
@@ -561,7 +561,7 @@ var kalendarRestAdapter = {
 		tanggal = tanggal.replace( "/", "-" );
 		tanggal = tanggal.replace( "/", "-" );
 
-		restAdapter.call( '/kalendar/' + tanggal, null, 'DELETE',
+		ehrmRestAdapter.call( '/kalendar/' + tanggal, null, 'DELETE',
 			function( result ) {
 				message.writeLog( "Mengambil kalendar: " + result.object ); // LOG
 				callback( result );
@@ -572,7 +572,7 @@ var kalendarRestAdapter = {
 		
 	findRange: function( tanggalAwal, tanggalAkhir, callback ) {
 
-		restAdapter.call( '/kalendar/' + tanggalAwal + '/to/' + tanggalAkhir, null, 'GET',
+		ehrmRestAdapter.call( '/kalendar/' + tanggalAwal + '/to/' + tanggalAkhir, null, 'GET',
 			function( result ) {
 				message.writeLog( "Mengambil kalendar: " + ( result.list ? result.list.length : 0 ) ); // LOG
 				callback( result );
@@ -594,7 +594,7 @@ var suratTugasRestAdapter = {
 			maksud: maksud
 		};
 		
-		restAdapter.call( '/suratTugas/langsung', suratTugas, 'POST',
+		ehrmRestAdapter.call( '/suratTugas/langsung', suratTugas, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah surat tugas: " + result.object ); // LOG
@@ -605,7 +605,7 @@ var suratTugasRestAdapter = {
 	
 	addPemegangTugas: function( id, nip, callback ) {
 		
-		restAdapter.call( '/suratTugas/' + id + '/pegawai/' + nip, null, 'POST',
+		ehrmRestAdapter.call( '/suratTugas/' + id + '/pegawai/' + nip, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah pemegang tugas: " + nip + ' pada ' + id ); // LOG
@@ -616,7 +616,7 @@ var suratTugasRestAdapter = {
 	
 	"delete": function( id, callback ) {
 		
-		restAdapter.call( '/suratTugas/' + id, null, 'DELETE',
+		ehrmRestAdapter.call( '/suratTugas/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus surat tugas: " + id ); // LOG
@@ -635,7 +635,7 @@ var suratTugasRestAdapter = {
 			daftarPegawai: daftarPegawai
 		};
 		
-		restAdapter.call( '/suratTugas/' + nip, suratTugas, 'POST',
+		ehrmRestAdapter.call( '/suratTugas/' + nip, suratTugas, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Merequest surat tugas: " + result.object ); // LOG
@@ -648,7 +648,7 @@ var suratTugasRestAdapter = {
 
 		nomor = changeChar( nomor, "/", "-" );
 
-		restAdapter.call( '/suratTugas/' + nomor + '/terima', null, 'PUT',
+		ehrmRestAdapter.call( '/suratTugas/' + nomor + '/terima', null, 'PUT',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menerima surat tugas: " + result.object ); // LOG
@@ -661,7 +661,7 @@ var suratTugasRestAdapter = {
 
 		nomor = changeChar( nomor, "/", "-" );
 
-		restAdapter.call( '/suratTugas/' + nomor + '/tolak', null, 'PUT',
+		ehrmRestAdapter.call( '/suratTugas/' + nomor + '/tolak', null, 'PUT',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menolak surat tugas: " + result.object ); // LOG
@@ -672,7 +672,7 @@ var suratTugasRestAdapter = {
 	
 	findPending: function( callback ) {
 
-		restAdapter.call( '/suratTugas/pending', null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/pending', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas pending: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -683,7 +683,7 @@ var suratTugasRestAdapter = {
 	
 	findAccepted: function( callback ) {
 
-		restAdapter.call( '/suratTugas/terima', null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/terima', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas accepted: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -694,7 +694,7 @@ var suratTugasRestAdapter = {
 	
 	findIgnored: function( callback ) {
 
-		restAdapter.call( '/suratTugas/tolak', null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/tolak', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas ignored: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -705,7 +705,7 @@ var suratTugasRestAdapter = {
 	
 	findByTanggal: function( awal, akhir, callback ) {
 
-		restAdapter.call( '/suratTugas/awal/' + awal + '/akhir/' + akhir, null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/awal/' + awal + '/akhir/' + akhir, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -716,7 +716,7 @@ var suratTugasRestAdapter = {
 	
 	findBySatker: function( kode, callback ) {
 
-		restAdapter.call( '/suratTugas/satker/' + kode, null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/satker/' + kode, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -727,7 +727,7 @@ var suratTugasRestAdapter = {
 	
 	findByPegawai: function( nip, callback ) {
 
-		restAdapter.call( '/suratTugas/' + nip, null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/' + nip, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -738,7 +738,7 @@ var suratTugasRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/suratTugas/search/' + keyword, null, 'GET',
+		ehrmRestAdapter.call( '/suratTugas/search/' + keyword, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -764,7 +764,7 @@ var sppdRestAdapter = {
 
 		nomorSuratTugas = changeChar( nomorSuratTugas, "/", "-" );
 		
-		restAdapter.call( '/sppd/' + nip + '/suratTugas/' + nomorSuratTugas, sppd, 'POST',
+		ehrmRestAdapter.call( '/sppd/' + nip + '/suratTugas/' + nomorSuratTugas, sppd, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan sppd: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -787,7 +787,7 @@ var sppdRestAdapter = {
 
 		nomorSuratTugas = changeChar( nomorSuratTugas, "/", "-" );
 
-		restAdapter.call( '/sppd/' + nip + '/suratTugas/' + nomorSuratTugas, sppd, 'POST',
+		ehrmRestAdapter.call( '/sppd/' + nip + '/suratTugas/' + nomorSuratTugas, sppd, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menyimpan sppd: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -798,7 +798,7 @@ var sppdRestAdapter = {
 
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/sppd/' + id, null, 'DELETE',
+		ehrmRestAdapter.call( '/sppd/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus sppd: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -817,7 +817,7 @@ var sppdRestAdapter = {
 
 		nomor = changeChar( nomor, "/", "-" );
 			
-		restAdapter.call( '/sppd/' + nomor + '/pengikut', pengikut, 'POST',
+		ehrmRestAdapter.call( '/sppd/' + nomor + '/pengikut', pengikut, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah pengikut sppd: " + result.object ); // LOG
@@ -828,7 +828,7 @@ var sppdRestAdapter = {
 	
 	findByTanggal: function( awal, akhir, callback ) {
 
-		restAdapter.call( '/sppd/awal/' + awal + '/akhir/' + akhir, null, 'GET',
+		ehrmRestAdapter.call( '/sppd/awal/' + awal + '/akhir/' + akhir, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -839,7 +839,7 @@ var sppdRestAdapter = {
 	
 	findBySatker: function( kode, callback ) {
 
-		restAdapter.call( '/sppd/satker/' + kode, null, 'GET',
+		ehrmRestAdapter.call( '/sppd/satker/' + kode, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil sppd: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -850,7 +850,7 @@ var sppdRestAdapter = {
 	
 	findByPegawai: function( nip, callback ) {
 
-		restAdapter.call( '/sppd/' + nip, null, 'GET',
+		ehrmRestAdapter.call( '/sppd/' + nip, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil sppd: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -861,7 +861,7 @@ var sppdRestAdapter = {
 	
 	search: function( keyword, callback ) {
 
-		restAdapter.call( '/sppd/search/' + keyword, null, 'GET',
+		ehrmRestAdapter.call( '/sppd/search/' + keyword, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil surat tugas: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -875,7 +875,7 @@ var aplikasiRestAdapter = {
 	
 	findKode: function( callback ) {
 
-		restAdapter.call( '/aplikasi/kode', null, 'GET',
+		ehrmRestAdapter.call( '/aplikasi/kode', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil kode aplikasi: " + result.object ); // LOG
@@ -894,7 +894,7 @@ var aplikasiRestAdapter = {
 			url: url
 		};
 
-		restAdapter.call( '/aplikasi', aplikasi, 'POST',
+		ehrmRestAdapter.call( '/aplikasi', aplikasi, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah aplikasi: " + aplikasi ); // LOG
@@ -905,7 +905,7 @@ var aplikasiRestAdapter = {
 	
 	"delete": function( id, callback ) {
 
-		restAdapter.call( '/aplikasi/' + id, null, 'DELETE',
+		ehrmRestAdapter.call( '/aplikasi/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus aplikasi: " + id ); // LOG
@@ -916,7 +916,7 @@ var aplikasiRestAdapter = {
 	
 	findOne: function( kode, callback ) {
 
-		restAdapter.call( '/aplikasi/' + kode, null, 'GET',
+		ehrmRestAdapter.call( '/aplikasi/' + kode, null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil aplikasi: " + result.object ); // LOG
@@ -927,7 +927,7 @@ var aplikasiRestAdapter = {
 	
 	findAll: function( callback ) {
 
-		restAdapter.call( '/aplikasi', null, 'GET',
+		ehrmRestAdapter.call( '/aplikasi', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil aplikasi: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -938,7 +938,7 @@ var aplikasiRestAdapter = {
 	
 	addOperator: function( kode, nip, callback ) {
 
-		restAdapter.call( '/aplikasi/' + kode +'/operator/' + nip, null, 'POST',
+		ehrmRestAdapter.call( '/aplikasi/' + kode +'/operator/' + nip, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah operator: " + nip + ' pada aplikasi: ' + kode ); // LOG
@@ -949,7 +949,7 @@ var aplikasiRestAdapter = {
 	
 	findOperator: function( kode, callback ) {
 
-		restAdapter.call( '/aplikasi/' + kode + '/operator', null, 'GET',
+		ehrmRestAdapter.call( '/aplikasi/' + kode + '/operator', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil operator: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -960,7 +960,7 @@ var aplikasiRestAdapter = {
 	
 	addAdmin: function( kode, nip, callback ) {
 
-		restAdapter.call( '/aplikasi/' + kode +'/admin/' + nip, null, 'POST',
+		ehrmRestAdapter.call( '/aplikasi/' + kode +'/admin/' + nip, null, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menambah admin: " + nip + ' pada aplikasi: ' + kode ); // LOG
@@ -971,7 +971,7 @@ var aplikasiRestAdapter = {
 	
 	findAdmin: function( kode, callback ) {
 
-		restAdapter.call( '/aplikasi/' + kode + '/admin', null, 'GET',
+		ehrmRestAdapter.call( '/aplikasi/' + kode + '/admin', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil admin: " + ( result.list ? result.list.length : 0 ) ); // LOG
@@ -982,7 +982,7 @@ var aplikasiRestAdapter = {
 	
 	deleteOperator: function( id, callback ) {
 
-		restAdapter.call( '/aplikasi/operator/' + id, null, 'DELETE',
+		ehrmRestAdapter.call( '/aplikasi/operator/' + id, null, 'DELETE',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Menghapus operator: " + id ); // LOG

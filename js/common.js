@@ -211,14 +211,6 @@ function rest( link, projectName) {
 		},
 	
 		callFree: function( path, data, method, success, error, async ) {
-	
-			// Jika tidak login, redirect ke halaman login.
-			if ( operator.isAuthenticated() == false ) {
-					
-				window.location.href = 'login.html';
-				return;
-					
-			}
 			
 			if ( async == null )
 				async = true;
@@ -1451,13 +1443,13 @@ var operator = {
 			return false;
 		
 		// Reload token
-		restAdapter.callFree( '/token/' + this.getTokenString(), null, 'GET', function( result ) {
-			if ( result.tipe == 'ENTITY')
-				operator.setToken( result.object );
-		},
-		message.writeError, 
-		false
-		);
+		// restAdapter.callFree( '/token/' + this.getTokenString(), null, 'GET', function( result ) {
+		// 	if ( result.tipe == 'ENTITY')
+		//		operator.setToken( result.object );
+		// },
+		// message.writeError, 
+		// false
+		// );
 
 		var role = this.getRole();
 		if ( ( role != 'ADMIN' && role != 'OPERATOR' ) ) {
