@@ -1,5 +1,5 @@
 /**
- * eHRMRestAdapter.js
+ * ehrm.js
  *
  * UnitedVision. 2015
  * Manado, Indonesia.
@@ -9,9 +9,10 @@
  * Manado, Indonesia.
  * deddy.kakunsi@gmail.com | deddykakunsi@outlook.com
  * 
- * Version: 1.0.0
+ * Version: 1.1.0
  */
 
+var PROFILE_PHOTO_FOLDER = 'profile';
 var target = 'https://core-unitedvision.whelastic.net';
 var ehrmRestAdapter = rest( target, 'ehrm' );
 
@@ -872,6 +873,29 @@ var sppdRestAdapter = {
 }
 
 var aplikasiRestAdapter = {
+	
+	saveDriveToken: function( token, callback ) {
+
+		ehrmRestAdapter.call( '/aplikasi/drive/token/' + JSON.stringify( token ), null, 'PUT',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Menyimpan token Google Drive: " + result.object ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	getDriveToken: function( callback ) {
+
+		ehrmRestAdapter.call( '/aplikasi/drive/token', null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil token Google Drive: " + result.object ); // LOG
+			},
+			message.error,
+			false // Synchronous call
+		);
+	},
 	
 	findKode: function( callback ) {
 

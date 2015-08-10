@@ -1,5 +1,5 @@
 /**
- * Common.js
+ * common.js
  *
  * UnitedVision. 2015
  * Manado, Indonesia.
@@ -9,9 +9,12 @@
  * Manado, Indonesia.
  * deddy.kakunsi@gmail.com | deddykakunsi@outlook.com
  * 
- * Version: 1.0.0
+ * Version: 1.1.0
  */
- 
+
+/** Alamat server untuk menyimpan file */
+var targetImage = 'http://dir-unitedvision.whelastic.net'; 
+
 var waitModal;
 var kodeAplikasi;
 
