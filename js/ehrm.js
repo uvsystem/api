@@ -860,6 +860,17 @@ var sppdRestAdapter = {
 		);
 	},
 	
+	rekap: function( tahun, callback ) {
+
+		ehrmRestAdapter.callFree( '/sppd/rekap/tahun/' + tahun, null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Rekap SPPD tahun: " + tahun + ", jumlah: " + result.list ); // LOG
+			},
+			message.error
+		);
+	},
+	
 	search: function( keyword, callback ) {
 
 		ehrmRestAdapter.call( '/sppd/search/' + keyword, null, 'GET',
