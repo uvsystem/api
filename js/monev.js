@@ -93,7 +93,7 @@ var programRestAdapter = {
 	
 	rekapById: function( id, callback ) {
 
-		monevRestAdapter.call( '/program/rekap/' + id, null, 'GET',
+		monevRestAdapter.callFree( '/program/rekap/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Program dengan  id: " + id + ", hasil: " + result.model ); // LOG
 				callback( result );
@@ -104,7 +104,7 @@ var programRestAdapter = {
 	
 	rekapByTahun: function( tahun, callback ) {
 
-		monevRestAdapter.call( '/program/rekap/tahun/' + tahun, null, 'GET',
+		monevRestAdapter.callFree( '/program/rekap/tahun/' + tahun, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Program dengan  tahun: " + tahun + ", hasil: " + result.list ); // LOG
 				callback( result );
@@ -115,7 +115,7 @@ var programRestAdapter = {
 	
 	rekapBySatker: function( tahun, kode, callback ) {
 
-		monevRestAdapter.call( '/program/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
+		monevRestAdapter.callFree( '/program/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Program dengan  kode satuan kerja: " + kode  + ", hasil: " + result.model ); // LOG
 				callback( result );
@@ -251,7 +251,7 @@ var kegiatanRestAdapter = {
 	
 	rekapBySatker: function( tahun, kode, callback ) {
 
-		monevRestAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
+		monevRestAdapter.callFree( '/kegiatan/rekap/tahun/' + tahun + '/satker/' + kode, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Kegiatan dengan kode satuan kerja: " + kode  + ", hasil: " + result.list.length ); // LOG
 				callback( result );
@@ -262,7 +262,7 @@ var kegiatanRestAdapter = {
 	
 	rekapByProgram: function( tahun, id, callback ) {
 
-		monevRestAdapter.call( '/kegiatan/rekap/tahun/' + tahun + '/program/' + id, null, 'GET',
+		monevRestAdapter.callFree( '/kegiatan/rekap/tahun/' + tahun + '/program/' + id, null, 'GET',
 			function( result ) {
 				message.writeLog( "Rekap Kegiatan dengan  program: " + id  + ", hasil: " + result.model ); // LOG
 				callback( result );
