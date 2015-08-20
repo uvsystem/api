@@ -14,7 +14,7 @@
 
 var PROFILE_PHOTO_FOLDER = 'profile';
 var target = 'https://core-unitedvision.whelastic.net';
-var ehrmRestAdapter = rest( target, 'ehrm' );
+var ehrmRestAdapter = rest( target, 'demo-ehrm' );
 
 var unitKerjaRestAdapter = {
 

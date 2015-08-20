@@ -14,7 +14,7 @@
 
 var KEGIATAN_PHOTO_FOLDER = 'profile';
 var target = 'https://core-unitedvision.whelastic.net';
-var monevRestAdapter = rest( target, 'monev' );
+var monevRestAdapter = rest( target, 'demo-monev' );
 
 var programRestAdapter = {
 

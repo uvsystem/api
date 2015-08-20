@@ -13,7 +13,7 @@
  */
 
 /** Alamat server untuk menyimpan file */
-var targetImage = 'https://uvs.web.id/api/'; 
+var targetImage = 'https://uvs.web.id/demo-api/'; 
 function upload( file, kode, directory, submit ) {
 
 	if ( file ) {
