@@ -13,7 +13,7 @@
  */
 
 /** Alamat server untuk menyimpan file */
-var targetImage = 'https://uvs.web.id/demo-api/'; 
+var targetImage = 'https://sangihe.whelastic.net/api/';
 function upload( file, kode, directory, submit ) {
 
 	if ( file ) {
