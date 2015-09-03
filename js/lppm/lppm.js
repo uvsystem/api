@@ -104,7 +104,7 @@ var operatorRestAdapter = {
 			nama: nama,
 			email: email,
 			username: username,
-			password: password
+			passwordStr: password
 		};
 
 		lppmRestAdapter.call( '/operator', operator, 'POST',
@@ -175,7 +175,7 @@ var dosenRestAdapter = {
 			nip: nip,
 			nidn: nidn,
 			nama: nama,
-			password: password,
+			passwordStr: password,
 			telepon: telepon,
 			email: email,
 			tanggalLahirStr: tanggalLahir,
