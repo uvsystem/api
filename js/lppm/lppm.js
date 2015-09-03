@@ -17,7 +17,7 @@
  * 
  */
 
-var lppmRestAdapter = rest( target, 'monev' );
+var lppmRestAdapter = rest( target, 'lppm' );
 
 var baseRestAdapter = {
 		
