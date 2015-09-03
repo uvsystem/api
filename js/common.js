@@ -9,12 +9,18 @@
  * Manado, Indonesia.
  * deddy.kakunsi@gmail.com | deddykakunsi@outlook.com
  * 
- * Version: 1.1.0
+ * Version: 2.0
+ *
+ * Variabel 'waitModal' dan 'url' harus di-definisi-kan pada index.html.
+ * -> Variabel 'waitModal' untuk menampilkan loading modal ketika terjadi proses.
+ * -> Variabel 'url' merupakan global target.
+ *
  */
-
-/** Alamat server untuk menyimpan file */
-var targetImage = 'https://uvs.web.id/api/'; 
-function upload( file, kode, directory, submit ) {
+ 
+/**
+ * Fungsi untuk mengupload file
+ */
+function upload( file, kode, directory, submit, targetImage ) {
 
 	if ( file ) {
 
@@ -33,118 +39,10 @@ function upload( file, kode, directory, submit ) {
 	}
 };
 
-var waitModal;
-var kodeAplikasi;
-
 /**
- * Pesan yang akan ditampilkan ketika terjadi suatu proses.
- */
-var message = {
-	
-	/**
-	 * Sistem tidak menampilkan apapun.
-	 */
-	empty: function() { },
-		
-	/**
-	 * Proses menghasilkan pesan yang perlu ditampilkan.
-	 */
-	write: function( msg ) {
-		
-		alert( msg );
-		
-	},
-		
-	/**
-	 * Proses berhasil.
-	 * Lakukan aksi berdasarkan tipe message.
-	 */
-	success: function(result) {
-
-		page.change( $( '#message' ), '');
-	
-		switch ( result.tipe ) {
-		
-			case "SUCCESS": console.log( "Proses SUCCESS" );
-					page.change( $( '#message' ), 
-						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
-				break;
-			case "ENTITY": console.log( "Entity Set" );
-					page.change( $( '#message' ), 
-						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
-				break;
-			case "LIST": console.log( "List Set" );
-					page.change( $( '#message' ), 
-						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
-				break;
-			case "OBJECT": console.log( "Object Set" );
-					page.change( $( '#message' ), 
-						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
-				break;
-			case "MESSAGE": 
-					page.change( $( '#message' ), 
-						'<div id="warning-alert" class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Pesan!</strong> ' + result.message + '</div>');
-				break;
-			case "ERROR": 
-					page.change( $( '#message' ), 
-						'<div id="error-alert" class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Error!</strong> ' + result.message + '</div>');
-				break;
-			default: console.log( "Tipe result tidak dikenali : " + result.tipe );
-		}
-	
-	},
-		
-	/**
-	 * Secara default menampilkan pesan koneksi error ketika terjadi kesalahan.
-	 */
-	error: function() {
-
-		alert( 'Tidak bisa melakukan koneksi ke server' );
-		
-	},
-		
-	/**
-	 * Tampilkan error. Digunakan saat proses debugging.
-	 */
-	writeError: function( jqXHR, textStatus, errorThrown ) {
-
-		alert( 'Error : ' + textStatus + ' - ' + errorThrown );
-		
-	},
-		
-	/**
-	 * Tampilkan log pada browser console.
-	 */
-	writeLog: function( log ) {
-
-		console.log( "LOG : " + log );
-
-	},
-		
-	/**
-	 * Tampilkan error pada browser console.
-	 */
-	log: function( jqXHR, textStatus, errorThrown ) {
-
-		console.log( 'LOG: Error : ' + textStatus + ' - ' + errorThrown );
-		
-	},
-	
-	/**
-	 * Tampilkan pesan pada browser console.
-	 */
-	logResult: function( result ) {
-		
-		console.log( result.message );
-
-	}
-	
-};
-
-/**
- * inherit() returns a newly created object that inherits properties from the 
- * prototype object p. It uses the ECMAScript 5 function Object.create() if 
- * it is defined, and otherwise falls back to an older technique. 
+ * Membuat object baru yang mewarisi semua property dari prototype.
+ * Menggunakan fungsi Object.create() dari ECMAScript 5, jika tersedia.
+ * Jika tidak, aan akan menggunakan teknik lama.
  */
 function inherit( p ) {
     if ( p == null )
@@ -162,12 +60,18 @@ function inherit( p ) {
     return new f();
 };
 
-function rest( link, projectName) {
+/**
+ * Membuat object rest.
+ */
+function rest( link, projectName ) {
 
 	return {
 		
-		url: link +'/' + projectName,
-	
+		url: link + '/' + projectName,
+
+		/**
+		 * Memanggil service yang memerlukan otentikasi dan otorisasi
+		 */
 		call: function( path, data, method, success, error, async ) {
 	
 			// Jika tidak login, redirect ke halaman login.
@@ -177,15 +81,14 @@ function rest( link, projectName) {
 				return;
 					
 			}
-			
+
+			// Secara default, menggunakan asynchronous call
 			if ( async == null )
 				async = true;
-						
-			// Token menjadi pengganti password user.
-			var _password = operator.getTokenString();
-			var _username = operator.getUsername();
 			
 			var targetUrl = this.url + path;
+			var _password = operator.getTokenString(); // Token menjadi pengganti password user
+			var _username = operator.getUsername();
 	
 			var promise = $.ajax(
 				{
@@ -230,9 +133,13 @@ function rest( link, projectName) {
 				
 		    } );
 		},
-	
+
+		/**
+		 * Memanggil service yang tidak membutuhkan otentikasi dan otorosasi
+		 */
 		callFree: function( path, data, method, success, error, async ) {
-			
+
+			// Secara default menggunakan asynchronous call
 			if ( async == null )
 				async = true;
 			
@@ -281,6 +188,9 @@ function rest( link, projectName) {
 		    } );
 		},
 	
+		/**
+		 * Memanggil service yang memerlukan otentikasi dan otorisasi
+		 */
 		callAjax: function( object ) {
 	
 			var path = object.path; 
@@ -303,10 +213,14 @@ function rest( link, projectName) {
 			this.call( path, data, method, success, error, async );
 	
 		},
-		
+
+		/**
+		 * Melakukan login untuk mendapatkan token
+		 */
 		login: function( _username, _password ) {
 
 			var targetUrl = this.url;
+
 			var promise = $.ajax(
 			{
 		        type: 'POST',
@@ -337,9 +251,7 @@ function rest( link, projectName) {
 					window.location.href = 'index.html';
 	
 				} else {
-	
 					message.write( result.message );
-	
 				}
 			};
 	
@@ -353,7 +265,11 @@ function rest( link, projectName) {
 					waitModal.hide();
 		    });
 		},
-	
+
+		/**
+		 * Proses logout.
+		 * Update status token agar tidak bisa digunakan lagi.
+		 */
 		logout: function() {
 			
 			var targetUrl = this.url;
@@ -401,7 +317,7 @@ var page = {
 		window.location.href = "https://uvs.web.id/";
 	},
 	
-	/*
+	/**
 	 * Ganti isi element dengan file HTML yang di-load dari URL.
 	 */
 	load: function( element, url ) {
@@ -424,7 +340,7 @@ var page = {
 		
 	},
 
-	/*
+	/**
 	 * Ganti isi element dengan content.
 	 */
 	change: function ( element, content ) {
@@ -435,7 +351,7 @@ var page = {
 
 	},
 
-	/*
+	/**
 	 * Atur nama halaman.
 	 * Secara otomatis mengubah judul halaman, jika pada halaman terdapat component header.
 	 * id header = 'header-text'.
@@ -450,7 +366,7 @@ var page = {
 		
 	},
 
-	/*
+	/**
 	 * Ambil nama halaman.
 	 * Sama dengan 'current page'.
 	 */
@@ -465,12 +381,12 @@ var page = {
 		
 	},
 
-	/*
+	/**
 	 * Fungsi untuk menghasilkan konten berupa list.
 	 */
 	content: {
 
-		/*
+		/**
 		 * Atur konten.
 		 * Ganti konten, nama halaman, dan pilihan.
 		 */
@@ -483,7 +399,7 @@ var page = {
 			
 		},
 	
-		/*
+		/**
 		 * Fungsi create default.
 		 * Membuat item dalam list.
 		 * NOTE: KETIKA DISENTUH, BUKA DETAIL. ID DIAMBIL DARI ATRIBUT 'ID' PADA ELEMENT 'DIV'.
@@ -497,7 +413,7 @@ var page = {
 				'</li>';
 		},
 			
-		/*
+		/**
 		 * Fungsi untuk menghasilkan list view.
 		 * NOTE: CARA BUAT LIST VIEW NANTI BACA LAGI DI JQUERY MOBILE
 		 */
@@ -525,7 +441,7 @@ var page = {
 	
 	list: {
 
-		/*
+		/**
 		 * Fungsi default untuk me-return hasil.
 		 */
 		get: function ( result ) {
@@ -541,8 +457,8 @@ var page = {
 
 		},
 
-		/*
-		 * Generate HTML5 list dari list object.
+		/**
+		 * Generate HTML5 list <datalist> dari list object.
 		 */
 		dataList: {
 
@@ -566,7 +482,7 @@ var page = {
 			}
 		},
 
-		/*
+		/**
 		 * Generate list for <select>
 		 */
 		selectionList: {
@@ -597,10 +513,28 @@ var page = {
 			}
 		},
 		
-		/*
-		 * Generate option for list component.
+		/**
+		 * Generate pilihan <option> untuk komponen list.
 		 */
 		option: {
+			
+			generate: function ( list ) {
+
+				var html = '';
+				
+				if ( list ) {
+
+					for( var index = 0; index < list.length; index++ ) {
+
+						var tmp = list[ index ];
+						html += '<option>' + tmp.nama + '</option>';
+						
+					}
+				}
+				
+				return html;
+				
+			},
 
 			generateSelected: function ( list, selected ) {
 
@@ -628,42 +562,6 @@ var page = {
 				
 			},
 			
-			generate: function ( list ) {
-
-				var html = '';
-				
-				if ( list ) {
-
-					for( var index = 0; index < list.length; index++ ) {
-
-						var tmp = list[ index ];
-						html += '<option>' + tmp.nama + '</option>';
-						
-					}
-				}
-				
-				return html;
-				
-			},
-			
-			generateNip: function ( list ) {
-
-				var html = '';
-				
-				if ( list ) {
-
-					for( var index = 0; index < list.length; index++ ) {
-
-						var tmp = list[ index ];
-						html += '<option>' + tmp.nip + '</option>';
-						
-					}
-				}
-				
-				return html;
-				
-			},
-			
 			generateFromStorage: function( storageName ) {
 				
 				var list = storage.get( storageName );
@@ -675,8 +573,14 @@ var page = {
 	},
 };
 
+/**
+ * Kelas untuk membuat object tanggal yang sesuai kebutuhan.
+ */
 var myDate = {
 
+	/**
+	 * Membuat custom object tanggal
+	 */
 	create: function( day, month, year ) {
 		
 		return {
@@ -709,7 +613,7 @@ var myDate = {
 		};
 	},
 
-	//Months definiton
+	// Months definiton
 	month: {
 
 		getName: function ( index ) {
@@ -801,16 +705,23 @@ var myDate = {
 		}
 	},
 
+	/**
+	 * Membuat JavaScript object date.
+	 */
 	now: function() {
-	
 		return new Date();
-		
 	},
-	
+
+	/**
+	 * Membuat custom object tanggal
+	 */
 	getNow: function() {
 		return this.fromDate( this.now() );
 	},
 	
+	/**
+	 * Membuat object tanggal dari hari pertama pada bulan berjalan
+	 */
 	getAwal: function() {
 		
 		var date = new Date();
@@ -818,6 +729,9 @@ var myDate = {
 		
 	},
 	
+	/**
+	 * Membuat object tanggal dari hari terakhir pada bulan berjalan
+	 */
 	getAkhir: function() {
 		
 		var date = new Date();
@@ -828,22 +742,21 @@ var myDate = {
 		
 	},
 
+	/**
+	 * Memisahkan tanggal, bulan, tahun sesuai delimeter.
+	 * Delimeter dapat berupa "/", "-", atau " ".
+	 * Tambah "0" di depan jika hanya 1 karakter.
+	 */
 	split: function ( str ) {
 		
 		var delim;
 		
 		if ( str.indexOf ( "/" ) != -1 ) {
-
 			delim = "/";
-			
 		} else if ( str.indexOf ( "-" ) != -1 ) {
-
 			delim = "-";
-			
 		} else {
-
 			delim = " ";
-			
 		}
 		
 		var complete = function ( x ) {
@@ -864,17 +777,24 @@ var myDate = {
 		
 	},
 	
+	/**
+	 * Membuat custom object tanggal dari JavaScript object Date
+	 */
 	fromDate: function ( date ) {
 		return this.create( date.getDate(), date.getMonth() + 1, date.getFullYear() );
 	},
 	
+	/**
+	 * Membuat custom object tanggal dari JQuery Datepicker
+	 */
 	fromDatePicker: function ( date ) {
 		var str = this.split( date );
 		return this.create( str[2], str[1], str[0] );
 	},
 	
 	/**
-	 * Format: DD/mm/YYYY
+	 * Membuat custom object tanggal dari String.
+	 * Format String: DD/mm/YYYY
 	 */
 	fromString: function(date) {
 		var str = this.split( date );
@@ -882,6 +802,7 @@ var myDate = {
 	},
 	
 	/**
+	 * Membuat custom object tanggal dari String yang terformat.
 	 * Format: MM/dd/YYYY
 	 */
 	fromFormattedString: function ( date ) {
@@ -889,21 +810,35 @@ var myDate = {
 		return this.create( str[1], str[0], str[2] );
 	},
 
+	/**
+	 * Membuat object String yang terformat dari object JavaScript Date.
+	 * Format: MM/dd/YYYY
+	 */
 	formatDate: function ( unformattedDate ) {
 		var tmp = this.fromDate( unformattedDate );
 		return tmp.getFormattedString();
 	},
 
+	/**
+	 * Membuat object String yang terformat dari JQuery Datepicker.
+	 * Format: MM/dd/YYYY
+	 */
 	formatDatePicker: function ( unformattedDate ) {
 		var tmp = this.fromDatePicker( unformattedDate );
 		return tmp.getFormattedString();
 	},
 	
+	/**
+	 * Membuat custom object tanggal dari hari pertama pada bulan dan tahun yang sudah ditentukan.
+	 */
 	createFirstDate: function( bulan, tahun ) {
 		var indexBulan = this.month.getIndex( bulan );
 		return this.create( 1, indexBulan, tahun );
 	},
 	
+	/**
+	 * Membuat custom object tanggal dari hari terakhir pada bulan dan tahun yang sudah ditentukan.
+	 */
 	createLastDate: function( bulan, tahun ) {
 	
 		var indexBulan = this.month.getIndex( bulan );
@@ -919,22 +854,18 @@ var myDate = {
 
 var number = {
 
-	/*
+	/**
 	 * Modifikasi angka menggunakan koma sebagai pemisah satuan.
 	 */
 	addCommas: function ( x ) {
-
 		return x.toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );
-		
 	},
 
-	/*
+	/**
 	 * Modifikasi angka dengan menghilangkan tanda koma.
 	 */
 	removeCommas: function ( x ) {
-
 		return x.toString().replace( ",", "" );
-		
 	}
 };
 
@@ -1050,8 +981,14 @@ var myList = {
 	}
 };
 
+/**
+ * Kelas untuk mengelola browser data storage
+ */
 var storage = {
 
+	/**
+	 * Memasukan list ke dalam storage dengan key (index) storageName
+	 */
 	set: function ( list, storageName ) {
 
 		storageName = storageName.toLowerCase();
@@ -1065,6 +1002,9 @@ var storage = {
 		
 	},
 
+	/**
+	 * Mengambil list dari dalam storage dengan key (index) storageName
+	 */
 	get: function ( storageName ) {
 
 		storageName = storageName.toLowerCase();
@@ -1080,6 +1020,9 @@ var storage = {
 		
 	},
 
+	/**
+	 * Mengambil JSON dari storage sesuai container, dan memiliki nama.
+	 */
 	getByNama: function ( container, nama ) {
 		
 		var list = this.get( container.nama );
@@ -1088,6 +1031,9 @@ var storage = {
 		
 	},
 
+	/**
+	 * Mengambil JSON dari storage sesuai container, dan memiliki id.
+	 */
 	getById: function ( container, id ) {
 
 		var list = this.get( container.nama );
@@ -1096,6 +1042,9 @@ var storage = {
 
 	},
 
+	/**
+	 * Mengambil JSON dari storage sesuai container, dan memiliki kode.
+	 */
 	getByKode: function ( container, kode ) {
 		
 		var list = this.get( container.nama );
@@ -1104,6 +1053,9 @@ var storage = {
 		
 	},
 
+	/**
+	 * Mengambil JSON dari storage sesuai container, dan memiliki nomor.
+	 */
 	getByNomor: function ( container, nomor ) {
 		
 		var list = this.get( container.nama );
@@ -1112,6 +1064,9 @@ var storage = {
 		
 	},
 
+	/**
+	 * Mengambil JSON dari storage sesuai container, dan memiliki nip.
+	 */
 	getByNip: function ( container, nip ) {
 		
 		var list = this.get( container.nama );
@@ -1120,32 +1075,331 @@ var storage = {
 		
 	},
 
+	/**
+	 * Mengambil JSON dari storage sesuai container, dan memiliki username.
+	 */
 	getByUsername: function ( container, username ) {
 		
 		var list = this.get( container.nama );
 		
 		return myList.getByUsername( list, username );
 		
-	},
-
-	reset: function () {
-		
-		pegawaiRestAdapter.findAll( function( result ) {
-			storage.set( ( result ? result.list : [] ), pegawaiDomain.nama );
-		});
-
-		unitKerjaRestAdapter.all( function( result ) {
-			storage.set( ( result ? result.list : [] ), unitKerjaDomain.nama );
-		});
-
-	},
-
-	fill: function ( storageName ) {
-		throw new Error( 'Not yet implemented' );
 	}
 };
 
-var printer = {
+/**
+ * Pesan yang akan ditampilkan ketika terjadi suatu proses.
+ */
+var message = {
+	
+	/**
+	 * Sistem tidak menampilkan apapun.
+	 */
+	empty: function() { },
+		
+	/**
+	 * Proses menghasilkan pesan yang perlu ditampilkan.
+	 */
+	write: function( msg ) {
+		alert( msg );
+	},
+		
+	/**
+	 * Proses berhasil.
+	 * Lakukan aksi berdasarkan tipe message.
+	 */
+	success: function( result ) {
+
+		page.change( $( '#message' ), '');
+	
+		switch ( result.tipe ) {
+		
+			case "SUCCESS": console.log( "Proses SUCCESS" );
+					page.change( $( '#message' ), 
+						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
+				break;
+			case "ENTITY": console.log( "Entity Set" );
+					page.change( $( '#message' ), 
+						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
+				break;
+			case "LIST": console.log( "List Set" );
+					page.change( $( '#message' ), 
+						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
+				break;
+			case "OBJECT": console.log( "Object Set" );
+					page.change( $( '#message' ), 
+						'<div id="success-alert" class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Selamat!</strong> ' + result.message + '</div>');
+				break;
+			case "MESSAGE": 
+					page.change( $( '#message' ), 
+						'<div id="warning-alert" class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Pesan!</strong> ' + result.message + '</div>');
+				break;
+			case "ERROR": 
+					page.change( $( '#message' ), 
+						'<div id="error-alert" class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Error!</strong> ' + result.message + '</div>');
+				break;
+			default: console.log( "Tipe result tidak dikenali : " + result.tipe );
+		}
+	},
+		
+	/**
+	 * Secara default menampilkan pesan koneksi error ketika terjadi kesalahan.
+	 */
+	error: function() {
+		alert( 'Tidak bisa melakukan koneksi ke server' );
+	},
+		
+	/**
+	 * Tampilkan error. Digunakan saat proses debugging.
+	 */
+	writeError: function( jqXHR, textStatus, errorThrown ) {
+		alert( 'Error : ' + textStatus + ' - ' + errorThrown );
+	},
+		
+	/**
+	 * Tampilkan log pada browser console.
+	 */
+	writeLog: function( log ) {
+		console.log( "LOG : " + log );
+	},
+		
+	/**
+	 * Tampilkan error pada browser console.
+	 */
+	log: function( jqXHR, textStatus, errorThrown ) {
+		console.log( 'LOG: Error : ' + textStatus + ' - ' + errorThrown );
+	},
+	
+	/**
+	 * Tampilkan pesan pada browser console.
+	 */
+	logResult: function( result ) {
+		console.log( result.message );
+	}
+};
+
+/**
+ * Kelas untuk menampung data pegawai yang melakukan login berdasarkan token.
+ * Digunakan untuk otentikasi dan otorisasi.
+ */
+var operator = {
+
+	/**
+	 * Mengambil objek token. Hanya digunakan untuk tujuan spesifik.
+	 * Jika tidak ada, return null.
+	 */
+	getToken: function() {
+		
+		var token = localStorage.getItem( 'token' );
+
+		// jika token null, cek cookie dan request token dari server.
+		
+		if ( token == null )
+			throw new Error( "Token = null" );
+
+		return JSON.parse( token ); // Ubah token menjadi JSON
+		
+	},
+		
+	/**
+	 * Mengatur objek token. Digunakan setelah berhasil login.
+	 */
+	setToken: function( token ) {
+
+		message.writeLog( "Set token with " + token ); // LOG
+
+		if ( token != null ) {
+			
+			token = JSON.stringify( token );
+			
+			// simpan token string di dalam cookie
+			
+		}
+
+		localStorage.setItem( 'token', token );
+		
+	},
+		
+	/**
+	 * Mengambil token yang akan digunakan sebagai pengganti password.
+	 * Hanya bekerja jika sudah berhasil login. Jika tidak akan menghasilkan null.
+	 */
+	getTokenString: function() {
+
+		var token;
+		
+		try {
+			
+			token = this.getToken();
+		
+			return token.token;
+			
+		} catch ( e ) {
+			
+			throw e;
+			
+		}
+	},
+		
+	/**
+	 * Mengambil objek pegawai yang sedang login.
+	 */
+	getPengguna: function() {
+
+		var token;
+	
+		try {
+			
+			token = this.getToken();
+
+			return token.pengguna;
+			
+		} catch ( e ) {
+			
+			throw e;
+			
+		}
+	},
+	
+	/**
+	 * Mengambil username dari object pengguna yang berhasil login terakhir kali.
+	 * Sering digunakan untuk melakukan REST request.
+	 */
+	getUsername: function() {
+
+		var pengguna;
+		
+		try {
+			
+			pengguna = this.getPegawai();
+
+			return pengguna.username;
+			
+		} catch ( e ) {
+			throw e;
+		}
+	},
+		
+	/**
+	 * Mengambil nama dari object pengguna yang berhasil login terakhir kali.
+	 * Sering digunakan untuk melakukan REST request.
+	 */
+	getName: function() {
+
+		var pengguna;
+		
+		try {
+			
+			pengguna = this.getPegawai();
+
+			return pengguna.nama;
+			
+		} catch ( e ) {
+			throw e;
+		}
+	},
+
+	/**
+	 * Mengambil ROLE pengguna yang berhasil login terakhir kali.
+	 * Digunakan untuk proses otorisasi setelah login.
+	 */
+	getRole: function() {
+
+		if ( this.getUsername() == 'superuser' )
+			return 'ADMIN';
+	
+		var pengguna;
+		
+		try {
+			
+			pengguna = this.getPengguna();
+			
+			return pengguna.role;
+			
+		} catch ( e ) {
+			
+			message.writeLog( e );
+			
+			return "GUEST";
+			
+		}
+	},
+		
+	/**
+	 * Reset objek token pada keadaan semula. Menghapus semua data pegawai yang berhasil login.
+	 * Setelah memanggil fungsi ini, pegawai harus login lagi untuk melakukan proses berikutnya.
+	 * Digunakan ketika logout.
+	 */
+	reset: function() {
+
+		this.setToken(null);
+		
+		// Hapus token dari cookie.
+		
+	},
+		
+	/**
+	 * Mengecek apakah token ada dan masih berlaku.
+	 * Jika token ada dan masih berlaku, maka pegawai bisa melakukan proses berikutnya, selain dari pada itu, pegawai harus login kembali.
+	 */
+	isAuthenticated: function() {
+
+		try {
+			
+			var token = this.getToken();
+			var now = myDate.fromDate( new Date() );
+			var expire = myDate.fromFormattedString( token.expireStr );
+			
+			// Jika token sudah expire, maka user dianggap belum login
+			if ( now.isAfter( expire ) )
+				return false;
+			return true;
+				
+		} catch ( e ) {
+
+			message.writeLog( e );
+			return false;
+			
+		}
+	},
+	
+	/**
+	 * Mengecek apakah pengguna memiliki hak untuk mengakses sistem.
+	 * Hanya ADMIN dan OPERATOR yang bisa mengakses sistem.
+	 */
+	isAuthorized: function() {
+
+		if ( this.isAuthenticated() == false )
+			return false;
+		
+		// Reload token
+		// restAdapter.callFree( '/token/' + this.getTokenString(), null, 'GET', function( result ) {
+		// 	if ( result.tipe == 'ENTITY')
+		//		operator.setToken( result.object );
+		// },
+		// message.writeError, 
+		// false
+		// );
+
+		var role = this.getRole();
+		if ( ( role != 'ADMIN' && role != 'OPERATOR' ) ) {
+
+			message.write( 'Maaf, anda tidak bisa mengakses halaman ini' );
+			message.writeLog( 'Maaf, anda tidak bisa mengakses halaman ini' ); // LOG
+
+			return false;
+
+		}
+		
+		return true;
+		
+	}
+};
+
+/**
+ * Kelas untuk menampilkan/mengunduh file pdf ke dalam browser
+ */
+ var printer = {
 
 	submitPost: function( path, params, method ) {
 	
@@ -1176,7 +1430,7 @@ var printer = {
 	}
 };
 
-/*
+/**
  * Pilih berdasarkan 2 pilihan.
  */
 function choose( option1, option2 ) {
@@ -1188,6 +1442,9 @@ function choose( option1, option2 ) {
 	
 };
 
+/**
+ * Membuat object baru yang memiliki semua property dari object lama
+ */
 function copyOf( object ) {
 
 	return $.extend( {}, object );
@@ -1203,8 +1460,14 @@ var setupPage = function( list, container ) {
 	
 };
 
+// DEFINISI DYNAMIC TABEL
+
 var activeContainer;
 var set = 20;
+
+/**
+ * Membuat batas atas dan bawah untuk menampilkan data dari list sesuai jumlah data dalam list, nomor halaman, dan jumlah data per halaman
+ */
 var tableSet = function( list, pageNumber) {
 
 	// Jika list kosong, return default value.
@@ -1215,15 +1478,17 @@ var tableSet = function( list, pageNumber) {
 			last: 0
 		};
 	}
-		
+
+	// Secara default selalu membuat halaman 1
 	if ( !pageNumber )
 		pageNumber = 1;
 				
 	pageNumber--;
 	
 	var first = pageNumber * set;
-	var last = ( pageNumber * set ) + set;
-	
+	var last = first + set;
+
+	// Jika index terakhir melebihi jumlah maksimum list, maka gunakan jumlah maksimum list sebagai index terakhir
 	if ( last > list.length )
 		last = list.length;
 	
@@ -1233,6 +1498,9 @@ var tableSet = function( list, pageNumber) {
 	};
 };
 
+/**
+ * Mengganti semua karakter lama pada object String dengan karakter baru
+ */
 function changeChar( str, oldChar, newChar ) {
 
 	// message.writeLog( 'Not All Done' );
@@ -1240,265 +1508,4 @@ function changeChar( str, oldChar, newChar ) {
 		str = str.replace( "/", "-" );
 		
 	return str;
-};
-
-/*
- * Variabel untuk menampung data pegawai yang melakukan login berdasarkan token.
- * Digunakan untuk otentikasi dan otorisasi.
- */
-var operator = {
-
-	/*
-	 * Mengambil objek token. Hanya digunakan untuk tujuan spesifik.
-	 * Jika tidak ada, return null.
-	 */
-	getToken: function() {
-		
-		var token = localStorage.getItem( 'token' );
-
-		// jika token null, cek cookie dan request token dari server.
-		
-		if ( token == null )
-			throw new Error( "Token = null" );
-
-		return JSON.parse( token ); // Ubah token menjadi JSON
-		
-	},
-		
-	/*
-	 * Mengatur objek token. Digunakan setelah berhasil login.
-	 */
-	setToken: function( token ) {
-
-		message.writeLog( "Set token with " + token ); // LOG
-
-		if ( token != null ) {
-			
-			token = JSON.stringify( token );
-			
-			// simpan token string di dalam cookie
-			
-		}
-
-		localStorage.setItem( 'token', token );
-		
-	},
-		
-	/*
-	 * Mengambil token yang akan digunakan sebagai pengganti password.
-	 * Hanya bekerja jika sudah berhasil login. Jika tidak akan menghasilkan null.
-	 */
-	getTokenString: function() {
-
-		var token;
-		
-		try {
-			
-			token = this.getToken();
-		
-			return token.token;
-			
-		} catch ( e ) {
-			
-			throw e;
-			
-		}
-	},
-		
-	/*
-	 * Mengambil objek pegawai yang sedang login.
-	 */
-	getPegawai: function() {
-
-		var token;
-	
-		try {
-			
-			token = this.getToken();
-
-			return token.pegawai;
-			
-		} catch ( e ) {
-			
-			throw e;
-			
-		}
-	},
-	
-	getSatuanKerja: function() {
-
-		var pegawai;
-	
-		try {
-
-			pegawai = this.getPegawai();
-			
-			return pegawai.unitKerja;
-			
-		} catch ( e ) {
-			
-			throw e;
-			
-		}
-	},
-
-	getOperator: function() {
-
-		var pegawai;
-	
-		try {
-
-			pegawai = this.getPegawai();
-			var listOperator = pegawai.listOperator;
-			var size = listOperator.length;
-			
-			for ( var i = 0; i < size; i++ ) {
-				var tmp = listOperator[ i ];
-				
-				if ( tmp && tmp.kodeAplikasi == kodeAplikasi )
-					return tmp;
-			}
-			
-			throw new Error( "Bukan Operator" );
-			
-		} catch ( e ) {
-			
-			throw e;
-			
-		}
-	},
-	
-	/*
-	 * Mengambil username dari pegawai yang berhasil login terakhir kali.
-	 * Sering digunakan untuk melakukan REST request.
-	 */
-	getUsername: function() {
-
-		var pegawai;
-		
-		try {
-			
-			pegawai = this.getPegawai();
-
-			return pegawai.nip;
-			
-		} catch ( e ) {
-			
-			throw e;
-			
-		}
-	},
-		
-	/*
-	 * Mengambil nama dari pegawai yang berhasil login terakhir kali.
-	 * Sering digunakan untuk melakukan REST request.
-	 */
-	getName: function() {
-
-		var pegawai;
-		
-		try {
-			
-			pegawai = this.getPegawai();
-
-			return pegawai.nama;
-			
-		} catch ( e ) {
-			
-			throw e;
-			
-		}
-	},
-
-	/*
-	 * Mengambil ROLE dari pegawai yang berhasil login terakhir kali.
-	 * Digunakan untuk proses otorisasi setelah login.
-	 */
-	getRole: function() {
-
-		if ( this.getUsername() == 'superuser' )
-			return 'ADMIN';
-	
-		var operator;
-		
-		try {
-			
-			operator = this.getOperator();
-			
-			return operator.role;
-			
-		} catch ( e ) {
-			
-			message.writeLog( e );
-			
-			return "GUEST";
-			
-		}
-	},
-		
-	/*
-	 * Reset objek token pada keadaan semula. Menghapus semua data pegawai yang berhasil login.
-	 * Setelah memanggil fungsi ini, pegawai harus login lagi untuk melakukan proses berikutnya.
-	 * Digunakan ketika logout.
-	 */
-	reset: function() {
-
-		this.setToken(null);
-		
-		// Hapus token dari cookie.
-		
-	},
-		
-	/*
-	 * Mengecek apakah token ada dan masih berlaku.
-	 * Jika token ada dan masih berlaku, maka pegawai bisa melakukan proses berikutnya, selain dari pada itu, pegawai harus login kembali.
-	 */
-	isAuthenticated: function() {
-
-		try {
-			
-			var token = this.getToken();
-			var now = myDate.fromDate( new Date() );
-			var expire = myDate.fromFormattedString( token.expireStr );
-			
-			// Jika token sudah expire, maka user dianggap belum login
-			if ( now.isAfter( expire ) )
-				return false;
-			return true;
-				
-		} catch ( e ) {
-
-			message.writeLog( e );
-			return false;
-			
-		}
-	},
-	
-	isAuthorized: function() {
-
-		if ( this.isAuthenticated() == false )
-			return false;
-		
-		// Reload token
-		// restAdapter.callFree( '/token/' + this.getTokenString(), null, 'GET', function( result ) {
-		// 	if ( result.tipe == 'ENTITY')
-		//		operator.setToken( result.object );
-		// },
-		// message.writeError, 
-		// false
-		// );
-
-		var role = this.getRole();
-		if ( ( role != 'ADMIN' && role != 'OPERATOR' ) ) {
-
-			message.write( 'Maaf, anda tidak bisa mengakses halaman ini' );
-			message.writeLog( 'Maaf, anda tidak bisa mengakses halaman ini' ); // LOG
-
-			return false;
-
-		}
-		
-		return true;
-		
-	}
 };
