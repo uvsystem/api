@@ -9,11 +9,14 @@
  * Manado, Indonesia.
  * deddy.kakunsi@gmail.com | deddykakunsi@outlook.com
  * 
- * Version: 1.1.0
+ * Version: 1.1.1
+ *
+ * Variabel 'target' harus di-definisi-kan pada file index.html.
+ * -> 'target' merupakan global url untuk server pusat.
+ *
  */
 
 var PROFILE_PHOTO_FOLDER = 'profile';
-var target = 'https://core-unitedvision.whelastic.net';
 var ehrmRestAdapter = rest( target, 'ehrm' );
 
 var unitKerjaRestAdapter = {
@@ -58,8 +61,8 @@ var unitKerjaRestAdapter = {
 		);
 	},
 	
-	// Khusus sangihe channel, Synchronous access.
-	// his is bug. Next version, join with findSubUnit with async option.
+	// SPECIAL: Khusus sangihe channel, Synchronous access.
+	// This is bug. Next version, join with findSubUnit with async option.
 	findSubUnitAsync: function( kode, callback ) {
 
 		ehrmRestAdapter.callFree( '/satker/' + kode + '/sub', null, 'GET',

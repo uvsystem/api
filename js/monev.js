@@ -9,11 +9,14 @@
  * Manado, Indonesia.
  * deddy.kakunsi@gmail.com | deddykakunsi@outlook.com
  * 
- * Version: 1.1.0
+ * Version: 1.1.1
+ *
+ * Variabel 'target' harus di-definisi-kan pada file index.html.
+ * -> 'target' merupakan global url untuk server pusat.
+ *
  */
 
 var KEGIATAN_PHOTO_FOLDER = 'profile';
-var target = 'https://core-unitedvision.whelastic.net';
 var monevRestAdapter = rest( target, 'monev' );
 
 var programRestAdapter = {
