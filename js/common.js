@@ -1299,7 +1299,7 @@ var operator = {
 		
 		try {
 			
-			pengguna = this.getPegawai();
+			pengguna = this.getPengguna();
 
 			return pengguna.username;
 			
@@ -1318,7 +1318,7 @@ var operator = {
 		
 		try {
 			
-			pengguna = this.getPegawai();
+			pengguna = this.getPengguna();
 
 			return pengguna.nama;
 			
