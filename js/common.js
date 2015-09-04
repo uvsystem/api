@@ -255,14 +255,13 @@ function rest( link, projectName ) {
 		        url: targetUrl + '/token/' + _username,
 				contentType: 'application/json',
 		        processData: false,
-				data: JSON.stringify( { password: _password } ),
 			        
 				beforeSend: function (jqXHR, settings)
 				{
 
 					if ( waitModal )
 						waitModal.show();
-					
+					jqXHR.setRequestHeader ("Authorization", "Basic " + btoa( _username + ':' + _password ) );
 		        }
 					
 		    } );
