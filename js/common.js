@@ -61,6 +61,34 @@ function inherit( p ) {
 };
 
 /**
+ * Membuat controller modal yang dapat mengubah state modal (show/hide).
+ *
+ * idModal: id modal yang ingin di ubah.
+ */
+var createModal = function( idModal ) {
+	return {
+
+		element: $( '#' + idModal ),
+
+		show: function () {
+				
+			if ( this.element.val() == 'false' || this.element.val() == false ) {
+				element.modal( 'show' );
+				element.val( true );
+			}
+		},
+			
+		hide: function () {
+				
+			if ( this.element.val() == 'true' || this.element.val() == true ) {
+				element.modal( 'hide' );
+				element.val( false );
+			}
+		}
+	};
+};
+
+/**
  * Membuat object rest.
  */
 function rest( link, projectName ) {
