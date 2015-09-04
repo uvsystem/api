@@ -17,7 +17,7 @@
  * 
  */
 
-var lppmRestAdapter = rest( target, 'lppm' );
+var lppmRestAdapter = rest( target, project );
 
 var baseRestAdapter = {
 		
@@ -106,6 +106,17 @@ var baseRestAdapter = {
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil semua homebase: " + result.tipe ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	cari: function( keyword, callback ) {
+
+		lppmRestAdapter.call( '/homebase/search/' + keyword, null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mencari homebase: " + keyword ); // LOG
 			},
 			message.error
 		);
