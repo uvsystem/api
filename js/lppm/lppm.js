@@ -83,9 +83,12 @@ var baseRestAdapter = {
 		);
 	},
 	
+	/**
+	 * Tidak membutuhkan authentication.
+	 */
 	getAllProdi: function( callback ) {
 
-		lppmRestAdapter.call( '/homebase/prodi', null, 'GET',
+		lppmRestAdapter.callFree( '/homebase/prodi', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil Program Studi: " + result.tipe ); // LOG
@@ -94,9 +97,12 @@ var baseRestAdapter = {
 		);
 	},
 	
+	/**
+	 * Tidak membutuhkan authentication.
+	 */
 	getAll: function( callback ) {
 
-		lppmRestAdapter.call( '/homebase', null, 'GET',
+		lppmRestAdapter.callFree( '/homebase', null, 'GET',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Mengambil semua homebase: " + result.tipe ); // LOG

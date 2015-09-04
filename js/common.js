@@ -1375,7 +1375,7 @@ var operator = {
 			
 			var token = this.getToken();
 			var now = myDate.fromDate( new Date() );
-			var expire = myDate.fromFormattedString( token.expireStr );
+			var expire = myDate.fromFormattedString( token.expire );
 			
 			// Jika token sudah expire, maka user dianggap belum login
 			if ( now.isAfter( expire ) )
