@@ -88,7 +88,18 @@ var baseRestAdapter = {
 		lppmRestAdapter.call( '/homebase/prodi', null, 'GET',
 			function( result ) {
 				callback( result );
-				message.writeLog( "Mengambil Program Studi" ); // LOG
+				message.writeLog( "Mengambil Program Studi: " + result.tipe ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	getAll: function( callback ) {
+
+		lppmRestAdapter.call( '/homebase', null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil semua homebase: " + result.tipe ); // LOG
 			},
 			message.error
 		);
