@@ -69,9 +69,16 @@ var createModal = function( idModal ) {
 	return {
 
 		element: $( idModal ),
+		
+		isShow: function() {
+			return ( this.element.val() == true );
+		},
 
 		show: function () {
-				
+
+			if ( this.isShow() )
+				this.hide();
+			
 			if ( this.element.val() == 'false' || this.element.val() == false ) {
 				this.element.modal( 'show' );
 				this.element.val( true );
