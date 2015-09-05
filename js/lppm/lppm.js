@@ -286,5 +286,27 @@ var dosenRestAdapter = {
 			},
 			message.error
 		);
+	},
+	
+	getAll: function( callback ) {
+
+		lppmRestAdapter.call( '/dosen', null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil semua dosen: " + result.tipe ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	getByStatus: function( status, callback ) {
+
+		lppmRestAdapter.call( '/dosen/status/' + status, null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil dosen dengan status: " + status ); // LOG
+			},
+			message.error
+		);
 	}
 };
