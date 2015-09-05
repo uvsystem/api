@@ -1052,7 +1052,7 @@ var storage = {
 	 */
 	getByNama: function ( container, nama ) {
 		
-		var list = this.get( container.nama );
+		var list = this.get( container );
 		
 		return myList.getByNama( list, nama );
 		
@@ -1063,7 +1063,7 @@ var storage = {
 	 */
 	getById: function ( container, id ) {
 
-		var list = this.get( container.nama );
+		var list = this.get( container );
 
 		return myList.getById( list, id );
 
@@ -1074,7 +1074,7 @@ var storage = {
 	 */
 	getByKode: function ( container, kode ) {
 		
-		var list = this.get( container.nama );
+		var list = this.get( container );
 		
 		return myList.getByKode( list, kode );
 		
@@ -1085,7 +1085,7 @@ var storage = {
 	 */
 	getByNomor: function ( container, nomor ) {
 		
-		var list = this.get( container.nama );
+		var list = this.get( container );
 		
 		return myList.getByNomor( list, nomor );
 		
@@ -1096,7 +1096,7 @@ var storage = {
 	 */
 	getByNip: function ( container, nip ) {
 		
-		var list = this.get( container.nama );
+		var list = this.get( container );
 		
 		return myList.getByNip( list, nip );
 		
@@ -1107,7 +1107,7 @@ var storage = {
 	 */
 	getByUsername: function ( container, username ) {
 		
-		var list = this.get( container.nama );
+		var list = this.get( container );
 		
 		return myList.getByUsername( list, username );
 		
