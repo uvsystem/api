@@ -68,21 +68,21 @@ function inherit( p ) {
 var createModal = function( idModal ) {
 	return {
 
-		element: $( '#' + idModal ),
+		element: $( idModal ),
 
 		show: function () {
 				
 			if ( this.element.val() == 'false' || this.element.val() == false ) {
-				element.modal( 'show' );
-				element.val( true );
+				this.element.modal( 'show' );
+				this.element.val( true );
 			}
 		},
 			
 		hide: function () {
 				
 			if ( this.element.val() == 'true' || this.element.val() == true ) {
-				element.modal( 'hide' );
-				element.val( false );
+				this.element.modal( 'hide' );
+				this.element.val( false );
 			}
 		}
 	};
@@ -489,9 +489,9 @@ var page = {
 		 */
 		dataList: {
 
-			generateFromStorage: function ( storageName, listName ) {
+			generateFromStorage: function ( container, listName ) {
 
-				var list = storage.get( storageName );
+				var list = storage.get( container.nama );
 
 				return this.generateFromList( list, listName );
 				
@@ -514,9 +514,9 @@ var page = {
 		 */
 		selectionList: {
 
-			generateFromStorage: function ( storageName, selectedName ) {
+			generateFromStorage: function ( container, selectedName ) {
 
-				var list = storage.get( storageName );
+				var list = storage.get( container.nama );
 
 				return this.generateFromList( list, selectedName );
 				
@@ -589,9 +589,9 @@ var page = {
 				
 			},
 			
-			generateFromStorage: function( storageName ) {
+			generateFromStorage: function( container ) {
 				
-				var list = storage.get( storageName );
+				var list = storage.get( container );
 				
 				return this.generate( list );
 				
@@ -1014,11 +1014,11 @@ var myList = {
 var storage = {
 
 	/**
-	 * Memasukan list ke dalam storage dengan key (index) storageName
+	 * Memasukan list ke dalam storage dengan key (index) nama container.
 	 */
-	set: function ( list, storageName ) {
+	set: function ( list, container ) {
 
-		storageName = storageName.toLowerCase();
+		storageName = container.nama.toLowerCase();
 
 		message.writeLog("api.js: setStorage(): Storage " + storageName + " is set : " + ( list != null ) ); // LOG
 
@@ -1030,11 +1030,11 @@ var storage = {
 	},
 
 	/**
-	 * Mengambil list dari dalam storage dengan key (index) storageName
+	 * Mengambil list dari dalam storage dengan key (index) nama container.
 	 */
-	get: function ( storageName ) {
+	get: function ( container ) {
 
-		storageName = storageName.toLowerCase();
+		storageName = container.nama.toLowerCase();
 
 		var list = localStorage.getItem( storageName );
 		
