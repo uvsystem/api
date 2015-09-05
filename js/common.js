@@ -1016,7 +1016,7 @@ var storage = {
 	/**
 	 * Memasukan list ke dalam storage dengan key (index) nama container.
 	 */
-	set: function ( list, container ) {
+	set: function ( container, list ) {
 
 		storageName = container.nama.toLowerCase();
 
