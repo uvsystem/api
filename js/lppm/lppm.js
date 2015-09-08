@@ -195,6 +195,17 @@ var operatorRestAdapter = {
 
 var dosenRestAdapter = {
 	
+	simpan: function( idProdi, dosen, callback ) {
+		
+		lppmRestAdapter.call( '/dosen/' + idProdi, dosen, 'PUT',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Update dosen: " + dosen ); // LOG
+			},
+			message.error
+		);
+	},
+	
 	registrasi: function( idProdi, id, nik, nip, nidn, nama, password, telepon, email, tanggalLahir, callback ) {
 
 		var dosen = {
