@@ -428,6 +428,66 @@ var kegiatanRestAdapter = {
 			},
 			message.error
 		);
+	},
+	
+	getAll: function( callback ) {
+
+		lppmRestAdapter.call( '/kegiatan', null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil semua kegiatan: " + idDosen ); // LOG
+			},
+			message.error
+		);
+	}
+};
+
+/*
+ *
+ */
+var skemaRestAdapter = {
+
+	tambahDikti: function( nama, jumlah, callback ) {
+
+		var skema = {
+			nama: nama,
+			jumlah: jumlah
+		};
+	
+		lppmRestAdapter.call( '/skema/dikti', skema, 'POST',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Tambah skema dikti: " + skema ); // LOG
+			},
+			message.error
+		);
+	}
+
+	tambahUniversitas: function( nama, jumlah, callback ) {
+
+		var skema = {
+			nama: nama,
+			jumlah: jumlah
+		};
+	
+		lppmRestAdapter.call( '/skema/universitas', skema, 'POST',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Tambah skema universitas: " + skema ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	getAll: function( callback ) {
+		
+		lppmRestAdapter.call( '/skema', null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil semua skema: " + result.tipe ); // LOG
+			},
+			message.error
+		);
 	}
 };
 
