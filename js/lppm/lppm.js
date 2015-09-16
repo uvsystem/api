@@ -327,16 +327,15 @@ var dosenRestAdapter = {
 
 var kegiatanRestAdapter = {
 	
-	tambahPenelitian: function( idDosen, nama, tahun, skema, proposal, callback ) {
+	tambahPenelitian: function( idDosen, idSkema, nama, tahun, proposal, callback ) {
 	
 		var penelitian = {
 			nama: nama,
 			tahun: tahun,
-			skema: skema,
 			proposal: proposal
 		};
 	
-		lppmRestAdapter.call( '/kegiatan/penelitian/dosen/' + idDosen, penelitian, 'POST',
+		lppmRestAdapter.call( '/kegiatan/penelitian/dosen/' + idDosen + '/skema/' + idSkema, penelitian, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Tambah penelitian: " + penelitian ); // LOG
@@ -345,19 +344,18 @@ var kegiatanRestAdapter = {
 		);
 	},
 	
-	tambahPengabdian: function( idDosen, nama, tahun, skema, tanggalMulai, tanggalSelesai, lokasi, proposal, callback ) {
+	tambahPengabdian: function( idDosen, idSkema, nama, tahun, tanggalMulai, tanggalSelesai, lokasi, proposal, callback ) {
 
 		var pengabdian = {
 			nama: nama,
 			tahun: tahun,
-			skema: skema,
 			tanggalMulaiStr: tanggalMulai,
 			tanggalSelesaiStr: tanggalSelesai,
 			lokasi: lokasi,
 			proposal: proposal
 		};
 	
-		lppmRestAdapter.call( '/kegiatan/pengabdian/dosen/' + idDosen, pengabdian, 'POST',
+		lppmRestAdapter.call( '/kegiatan/pengabdian/dosen/' + idDosen + '/skema/' + idSkema, pengabdian, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Tambah pengabdian: " + pengabdian ); // LOG
