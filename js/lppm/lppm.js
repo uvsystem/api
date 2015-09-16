@@ -377,7 +377,7 @@ var kegiatanRestAdapter = {
 	
 	updateProposal: function( id, file, kode, directory, callback ) {
 	
-		var response = upload( file, kode, directory, "Uploading" );
+		var response = upload( file, kode, directory, "Uploading", targetImage );
 
 		lppmRestAdapter.call( '/kegiatan/' + id + '/proposal', 
 			{
