@@ -433,7 +433,7 @@ var kegiatanRestAdapter = {
 		lppmRestAdapter.call( '/kegiatan', null, 'GET',
 			function( result ) {
 				callback( result );
-				message.writeLog( "Mengambil semua kegiatan: " + idDosen ); // LOG
+				message.writeLog( "Mengambil semua kegiatan: " + result.tipe ); // LOG
 			},
 			message.error
 		);
