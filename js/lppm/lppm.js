@@ -461,7 +461,7 @@ var skemaRestAdapter = {
 			},
 			message.error
 		);
-	}
+	},
 
 	tambahUniversitas: function( nama, jumlah, callback ) {
 
