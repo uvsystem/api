@@ -206,6 +206,9 @@ var dosenRestAdapter = {
 		);
 	},
 	
+	/**
+	 * Registrasi tidak perlu otentikasi.
+	 */
 	registrasi: function( idProdi, id, nik, nip, nidn, nama, password, telepon, email, tanggalLahir, callback ) {
 
 		var dosen = {
@@ -220,7 +223,7 @@ var dosenRestAdapter = {
 			tanggalLahirStr: tanggalLahir,
 		};
 		
-		lppmRestAdapter.call( '/dosen/' + idProdi, dosen, 'POST',
+		lppmRestAdapter.callFree( '/dosen/' + idProdi, dosen, 'POST',
 			function( result ) {
 				callback( result );
 				message.writeLog( "Registrasi dosen: " + dosen ); // LOG
@@ -321,3 +324,110 @@ var dosenRestAdapter = {
 		);
 	}
 };
+
+var kegiatanRestAdapter = {
+	
+	tambahPenelitian: function( idDosen, nama, tahun, skema, proposal, callback ) {
+	
+		var penelitian = {
+			nama: nama,
+			tahun: tahun,
+			skema: skema,
+			proposal: proposal
+		};
+	
+		lppmRestAdapter.call( '/kegiatan/penelitian/dosen/' + idDosen, penelitian, 'POST',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Tambah penelitian: " + penelitian ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	tambahPengabdian: function( idDosen, nama, tahun, skema, tanggalMulai, tanggalSelesai, lokasi, proposal, callback ) {
+
+		var pengabdian = {
+			nama: nama,
+			tahun: tahun,
+			skema: skema,
+			tanggalMulaiStr: tanggalMulai,
+			tanggalSelesaiStr: tanggalSelesai,
+			lokasi: lokasi,
+			proposal: proposal
+		};
+	
+		lppmRestAdapter.call( '/kegiatan/pengabdian/dosen/' + idDosen, pengabdian, 'POST',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Tambah pengabdian: " + pengabdian ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	tambahPelaksana: function( id, idDosen, callback ) {
+
+		lppmRestAdapter.call( '/kegiatan/' + id + '/dosen/' + idDosen, null, 'PUT',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Tambah pelaksana: " + id ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	updateProposal: function( id, file, kode, directory, callback ) {
+	
+		var response = upload( file, kode, directory, "Uploading" );
+
+		lppmRestAdapter.call( '/kegiatan/' + id + '/proposal', 
+			{
+				link: targetImage + response.url;
+			}, 
+			'PUT',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Update proposal: " + response.message ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	terimaKegiatan: function( id, idOperator, callback ) {
+
+		lppmRestAdapter.call( '/kegiatan/' + id + '/operator/' + idOperator + '/terima', null, 'PUT',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Menerima penelitian: " + id ); // LOG
+			},
+			message.error
+		);
+	},
+	
+	tolakKegiatan: function( id, idOperator, callback ) {
+
+		lppmRestAdapter.call( '/kegiatan/' + id + '/operator/' + idOperator + '/tolak', null, 'PUT',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Menolak penelitian: " + id ); // LOG
+			},
+			message.error
+		);
+	},
+
+	/**
+	 * Return daftar pelaksana kegiatan yang berhubungan dengan dosen.
+	 */
+	getByDosen: function( idDosen, callback ) {
+
+		lppmRestAdapter.call( '/kegiatan/dosen/' + idDosen, null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil kegiatan berdasrkan dosen: " + idDosen ); // LOG
+			},
+			message.error
+		);
+	}
+};
+

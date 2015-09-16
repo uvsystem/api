@@ -24,18 +24,31 @@ function upload( file, kode, directory, submit, targetImage ) {
 
 	if ( file ) {
 
+		var response;
+		
 		var form = new FormData();
 		form.append( 'kode', kode );
 		form.append( 'directory', directory );
 		form.append( 'file', file );
 		form.append( 'submit', submit );
-				
-		var xhr = new XMLHttpRequest();
-		xhr.onload = function() {
-			alert( "Upload complete." );
-		};
-		xhr.open( "POST", targetImage + 'upload.php', false );
-		xhr.send( form );
+
+		$.ajax( {
+			url: targetImage + 'upload.php',
+			type: 'POST',
+			data: form,
+			processData: false,
+			async: false,
+			mimeType:"multipart/form-data",
+			contentType: false,
+			success: function( data ) {
+				response = JSON.parse( data );
+			},
+			error: function() {
+				alert( 'error' );
+			}
+		} );
+		
+		return response;
 	}
 };
 
