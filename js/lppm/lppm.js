@@ -381,7 +381,7 @@ var kegiatanRestAdapter = {
 
 		lppmRestAdapter.call( '/kegiatan/' + id + '/proposal', 
 			{
-				link: targetImage + response.url
+				link: targetImage + response.model.url
 			}, 
 			'PUT',
 			function( result ) {
