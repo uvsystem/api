@@ -440,6 +440,20 @@ var kegiatanRestAdapter = {
 	}
 };
 
+var pelaksanaRestAdapter = {
+	
+	getByKegiatan: function ( idKegiatan, callback ) {
+	
+		lppmRestAdapter.call( '/pelaksana/kegiatan/' + idKegiatan, null, 'GET',
+			function( result ) {
+				callback( result );
+				message.writeLog( "Mengambil pelaksana kegiatan: " + idKegiatan ); // LOG
+			},
+			message.error
+		);
+	}
+};
+
 /*
  *
  */
