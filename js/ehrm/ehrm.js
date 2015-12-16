@@ -219,6 +219,20 @@ var pegawaiRestAdapter = {
 			message.error
 		);
 	},
+
+	saveDirect: function( idSatuanKerja, pegawai, callback ) {
+
+		var method = 'POST';
+		if ( pegawai.id != 0 )
+			method = 'PUT';
+		
+		ehrmRestAdapter.call( '/pegawai/' + idSatuanKerja, pegawai, method, function( result ) {
+				callback( result );
+				message.writeLog( "Menyimpan pegawai: " + result.object ); // LOG
+			},
+			message.error
+		);
+	},
 	
 	"delete": function( nip, callback ) {
 
